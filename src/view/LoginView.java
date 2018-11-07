@@ -33,7 +33,8 @@ public class LoginView extends HttpServlet {
         String usuario = request.getParameter("usuario");
         String senha = request.getParameter("senha");
         String pagina;
-        if (usuario.equals("admin")) {
+        LoginController loginController = new LoginController(); 
+        if (loginController.autenticar(usuario, senha)) {
         	pagina = "Home.jsp";
         }else {
         	pagina = "Login.jsp?error=1";
