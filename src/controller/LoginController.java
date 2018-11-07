@@ -20,7 +20,7 @@ public class LoginController {
         RiscoController risco = new RiscoController(sessao.getCn());
         MitigacaoController mitigacao = new MitigacaoController(sessao.getCn());
         
-        loginView = new LoginView();
+        //loginView = new LoginView();
         
         //menuView = new MenuView(this);
         System.out.println("foi");
