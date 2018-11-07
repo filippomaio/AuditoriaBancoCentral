@@ -2,23 +2,23 @@ package controller;
 
 import model.*;
 import view.*;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class LoginController {
-	private String login;
+    private String login;
     private String senha;
-    private LoginModel sessao;
+    private Login sessao;
     
     private LoginView loginView;
     //private MenuView menuView;
     
     public LoginController(){
-        sessao = new LoginModel();
+        sessao = new Login();
         conectar();
-        //ProcessoController processo = new ProcessoController(sessao.getCn());
-        //RiscoController risco = new RiscoController(sessao.getCn());
-        //MitigacaoController mitigacao = new MitigacaoController(sessao.getCn());
+        ProcessoController processo = new ProcessoController(sessao.getCn());
+        RiscoController risco = new RiscoController(sessao.getCn());
+        MitigacaoController mitigacao = new MitigacaoController(sessao.getCn());
         
         loginView = new LoginView();
         
@@ -28,7 +28,6 @@ public class LoginController {
         //processo.desfazerProcessoRisco("alterado", 1);
         
         //loginView.show();
-        
         
     }
     
@@ -42,7 +41,8 @@ public class LoginController {
     
     public boolean autenticar(String login, String senha){
         if(sessao.logar(login, senha)){
-            //redirect
+            //loginView.setVisible(false);
+            //menuView.show();
             return true;
         }else{
             //JOptionPane.showMessageDialog(null, "Login ou Senha incorretos!");
@@ -55,4 +55,5 @@ public class LoginController {
         return sessao.desconectar();
         
     }
+    
 }
