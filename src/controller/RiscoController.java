@@ -1,52 +1,139 @@
 package controller;
 
-import model.*;
-import java.sql.Connection;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class RiscoController {
-    private Risco risco;
-    private int id;
-    private int cod;
-    private String descricao;
-    private int impacto;
-    private int probabilidade;
-    
-    
-    public RiscoController(Connection cn) {
-        this.risco = new Risco(cn);
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import model.*;
+
+/**
+ * Servlet implementation class ProcessoController
+ */
+@WebServlet("/Risco.do")
+public class RiscoController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private Risco risco;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public RiscoController() {
+        super();
+        // TODO Auto-generated constructor stub
     }
-    
-    public boolean validarCod(){
-        return this.risco.readRisco(cod) == null;
-    }
-    
-    public boolean cadastrarRisco(int cod, String descricao, int impacto, int probabilidade){      
-        this.cod = cod;
-        if(validarCod()){
-            this.risco.createRisco(cod, descricao, impacto, probabilidade);
-            return true;
-        } 
-       //JOptionPane.showMessageDialog(null, "Código de Risco já cadastrado!");
-       return false; 
-    }
-    
-    public Risco pesquisarRisco(int cod){
-        risco = this.risco.readRisco(cod);
-        return risco; 
-    }
-    
-    public boolean atualizarRisco(String descricao, int impacto, int probabilidade, int cod){
-        return this.risco.updateRisco(descricao, impacto, probabilidade, cod);
-    }
-    
-    public boolean apagarRisco(int cod){
-        return this.risco.deleteRisco(cod);
-    }
-    
-    public ArrayList<Risco> carregarRiscos(){
-        return this.risco.getRiscos();
-    }
-    
-    
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String acao = request.getParameter("acao");
+		if (acao.equals("cadastrar")){
+			cadastrarRisco(request,response);
+		}
+		if (acao.equals("matriz")){
+			matrizRisco(request,response);
+		}
+	}
+	
+	protected void cadastrarRisco(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		risco = new Risco(usuario.getCn());
+        
+		int codigo = Integer.parseInt(request.getParameter("codigo"));
+        String nome = request.getParameter("nome");
+        String descricao = request.getParameter("descricao");
+        int impacto = Integer.parseInt(request.getParameter("impacto"));
+        int probabilidade = Integer.parseInt(request.getParameter("probabilidade"));
+        
+        if (!hasRisco(nome,sessao)) {        	
+        	risco.createRisco(codigo, nome, descricao, impacto, probabilidade);
+        	request.setAttribute("message", "Risco cadastrado com sucesso!");
+        	carregarRiscos(request);
+            request.getRequestDispatcher("CadastrarRisco.jsp").forward(request, response);
+        }else {
+        	request.setAttribute("message", "Risco j� existe");
+            request.getRequestDispatcher("CadastrarRisco.jsp").forward(request, response);
+        }
+	}
+	
+	public boolean hasRisco(String nome, HttpSession sessao) {
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+        risco = new Risco(usuario.getCn());
+        if(risco.readRisco(nome) != null) {
+        	return true;
+        }
+        return false;
+	}
+	
+	public void matrizRisco(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		HttpSession sessao = request.getSession();
+		
+		sessao.setAttribute("d11", separarMatriz(1, 1, request));
+		sessao.setAttribute("d12", separarMatriz(1, 2, request));
+		sessao.setAttribute("d13", separarMatriz(1, 3, request));
+		sessao.setAttribute("d21", separarMatriz(2, 1, request));
+		sessao.setAttribute("d22", separarMatriz(2, 2, request));
+		sessao.setAttribute("d23", separarMatriz(2, 3, request));
+		sessao.setAttribute("d31", separarMatriz(3, 1, request));
+		sessao.setAttribute("d32", separarMatriz(3, 2, request));
+		sessao.setAttribute("d33", separarMatriz(3, 3, request));
+	    
+		request.getRequestDispatcher("Matriz1.jsp").forward(request, response);
+	}
+	
+	protected ArrayList<String> separarMatriz(int imp, int pro, HttpServletRequest request){
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		risco = new Risco(usuario.getCn());
+		List<Risco> riscos = new ArrayList<Risco>();
+		riscos = risco.getRiscos(imp,pro);
+		ArrayList<String> codigoRiscos = new ArrayList<>();
+		for(int i=0;i<riscos.size();i++) {
+			codigoRiscos.add(Integer.toString(riscos.get(i).getCodigo()));
+		}
+		return codigoRiscos;
+	}
+	
+	public void carregarRiscos(HttpServletRequest request) {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		List<Risco> riscos = new ArrayList<Risco>();
+		risco = new Risco(usuario.getCn());
+		riscos = risco.getRiscos();
+		ArrayList<String> idRiscos = new ArrayList<>();
+		ArrayList<String> nomeRiscos = new ArrayList<>();
+		ArrayList<String> codigoRiscos = new ArrayList<>();
+		for(int i=0;i<riscos.size();i++) {
+			idRiscos.add(Integer.toString(riscos.get(i).getIdRisco()));
+			nomeRiscos.add(riscos.get(i).getNome());
+			codigoRiscos.add(Integer.toString(riscos.get(i).getCodigo()));
+		}
+		sessao.setAttribute("idRiscos", idRiscos);
+		sessao.setAttribute("nomeRiscos", nomeRiscos);
+		sessao.setAttribute("codigoRiscos", codigoRiscos);
+		System.out.println(nomeRiscos);
+	}
+	
+	public String getNome() {
+		return risco.getNome();
+	}
+
+	public int getCodigo() {
+		return risco.getCodigo();
+	}
 }

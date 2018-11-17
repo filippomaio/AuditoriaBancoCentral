@@ -8,8 +8,9 @@
 </head>
 <body>
 <form action="Login.do" method="POST">
-	Usuario: <input type="text" name="usuario"><br>
+	Usuario: <input type="text" name="login"><br>
 	Senha: <input type="text" name="senha"><br>
+	${message}<br>
 	<input type="submit" value="Logar" name="btnLogar">
 </form>
 </body>

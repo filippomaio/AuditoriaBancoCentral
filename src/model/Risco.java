@@ -9,9 +9,10 @@ import java.util.ArrayList;
 public class Risco {
     
     private final Connection cn;
-    private int id;
-    private int cod;
-    private String descricao;
+    private int idRisco;
+    private int codigo;
+    private String nome;
+	private String descricao;
     private int impacto;
     private int probabilidade;
 
@@ -19,16 +20,17 @@ public class Risco {
         this.cn = cn;
     }
     
-    public boolean createRisco(int cod, String descricao, int impacto, int probabilidade){
-        String query = "INSERT INTO auditoria.risco(cod, descricao, impacto, probabilidade)"
-                + " VALUES (?,?,?,?)";
+    public boolean createRisco(int codigo, String nome, String descricao, int impacto, int probabilidade){
+        String query = "INSERT INTO auditoria.risco(codigo, nome, descricao, impacto, probabilidade)"
+                + " VALUES (?,?,?,?,?)";
         
         try {
             PreparedStatement ps = cn.prepareStatement(query);
-            ps.setInt(1, cod);
-            ps.setString(2, descricao);
-            ps.setInt(3, impacto);
-            ps.setInt(4, probabilidade);
+            ps.setInt(1, codigo);
+            ps.setString(2, nome);
+            ps.setString(3, descricao);
+            ps.setInt(4, impacto);
+            ps.setInt(5, probabilidade);
             ps.executeUpdate();
             System.out.println("Add");
         }catch(SQLException ex){
@@ -46,37 +48,67 @@ public class Risco {
             ResultSet rs = ps.executeQuery();
             ArrayList<Risco> riscos = new ArrayList<Risco>();
             while(rs.next()){
-                this.id = rs.getInt("id");
-                this.cod = rs.getInt("cod");
-                this.descricao = rs.getString("descricao");
-                this.impacto = rs.getInt("impacto");
-                this.probabilidade = rs.getInt("probabilidade");
-                riscos.add(this);
+                Risco risco = new Risco(cn);
+                risco.idRisco = rs.getInt("idRisco");
+                risco.codigo = rs.getInt("codigo");
+                risco.nome = rs.getString("nome");
+                risco.descricao = rs.getString("descricao");
+                risco.impacto = rs.getInt("impacto");
+                risco.probabilidade = rs.getInt("probabilidade");
+                riscos.add(risco);
             }
+            System.out.println(riscos);
             return riscos;
         }catch(SQLException ex){
             System.out.println("Um erro aconteceu: " + ex);
         }
+        return null;
+    }
+
+    public ArrayList<Risco> getRiscos(int impacto, int probabilidade){
+        String query = "SELECT * FROM auditoria.risco WHERE impacto = (?) and probabilidade = (?)";
         
-        
+        try{
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setInt(1, impacto);
+            ps.setInt(2, probabilidade);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Risco> riscos = new ArrayList<Risco>();
+            while(rs.next()){
+                Risco risco = new Risco(cn);
+                risco.idRisco = rs.getInt("idRisco");
+                risco.codigo = rs.getInt("codigo");
+                risco.nome = rs.getString("nome");
+                risco.descricao = rs.getString("descricao");
+                risco.impacto = rs.getInt("impacto");
+                risco.probabilidade = rs.getInt("probabilidade");
+                riscos.add(risco);
+            }
+            System.out.println(riscos);
+            return riscos;
+        }catch(SQLException ex){
+            System.out.println("Um erro aconteceu: " + ex);
+        }
         return null;
     }
     
     public Risco readRisco(int cod){
-        String query = "SELECT * FROM auditoria.risco WHERE cod = (?)";
+        String query = "SELECT * FROM auditoria.risco WHERE codigo = (?)";
         
         try{
             PreparedStatement ps = cn.prepareStatement(query);
             ps.setInt(1, cod);
             ResultSet rs = ps.executeQuery();
             rs.next();
-            System.out.println("Result Set: " + rs.getInt("id"));
-            System.out.println("Result Set: " + rs.getString("cod"));
+            System.out.println("Result Set: " + rs.getInt("idRisco"));
+            System.out.println("Result Set: " + rs.getString("codigo"));
+            System.out.println("Result Set: " + rs.getString("nome"));
             System.out.println("Result Set: " + rs.getString("descricao"));
             System.out.println("Result Set: " + rs.getString("impacto"));
             System.out.println("Result Set: " + rs.getString("probabilidade"));
-            this.id = rs.getInt("id");
-            this.cod = rs.getInt("cod");
+            this.idRisco = rs.getInt("idRisco");
+            this.codigo = rs.getInt("codigo");
+            this.nome = rs.getString("nome");
             this.descricao = rs.getString("descricao");
             this.impacto = rs.getInt("impacto");
             this.probabilidade = rs.getInt("probabilidade");
@@ -85,20 +117,50 @@ public class Risco {
             System.out.println("Um erro aconteceu: " + ex);
         }
         
+        return null;
+    }
+
+    
+    public Risco readRisco(String nome){
+        String query = "SELECT * FROM auditoria.risco WHERE nome = (?)";
+        
+        try{
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setString(1, nome);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            System.out.println("Result Set: " + rs.getInt("idRisco"));
+            System.out.println("Result Set: " + rs.getString("codigo"));
+            System.out.println("Result Set: " + rs.getString("nome"));
+            System.out.println("Result Set: " + rs.getString("descricao"));
+            System.out.println("Result Set: " + rs.getString("impacto"));
+            System.out.println("Result Set: " + rs.getString("probabilidade"));
+            this.idRisco = rs.getInt("idRisco");
+            this.codigo = rs.getInt("codigo");
+            this.nome = rs.getString("nome");
+            this.descricao = rs.getString("descricao");
+            this.impacto = rs.getInt("impacto");
+            this.probabilidade = rs.getInt("probabilidade");
+            return this;
+        }catch(SQLException ex){
+            System.out.println("Um erro aconteceu: " + ex);
+        }
         
         return null;
     }
+
     
-    public boolean updateRisco(String descricao, int impacto, int probabilidade, int cod){
-        String query = "UPDATE auditoria.risco SET descricao = ?,"
-                + " impacto = ?, probabilidade = ? WHERE auditoria.risco.cod = ?";
+    public boolean updateRisco(String nome, String descricao, int impacto, int probabilidade, int codigo){
+        String query = "UPDATE auditoria.risco SET nome = ?, descricao = ?,"
+                + " impacto = ?, probabilidade = ? WHERE auditoria.risco.codigo = ?";
 
          try {
              PreparedStatement ps = cn.prepareStatement(query);
-             ps.setString(1, descricao);
-             ps.setInt(2, impacto);
-             ps.setInt(3, probabilidade);
-             ps.setInt(4, cod);
+             ps.setString(1, nome);
+             ps.setString(2, descricao);
+             ps.setInt(3, impacto);
+             ps.setInt(4, probabilidade);
+             ps.setInt(5, codigo);
              ps.executeUpdate();
              System.out.println("Alterado");
          }catch(SQLException ex){
@@ -108,11 +170,11 @@ public class Risco {
          return false;
     }
     
-    public boolean deleteRisco(int cod){
-        String query = "DELETE FROM auditoria.risco WHERE auditoria.risco.cod = (?)";
+    public boolean deleteRisco(int codigo){
+        String query = "DELETE FROM auditoria.risco WHERE auditoria.risco.codigo = (?)";
         try {
             PreparedStatement ps = cn.prepareStatement(query);
-            ps.setInt(1, cod);
+            ps.setInt(1, codigo);
             ps.executeUpdate();
             System.out.println("Deletado");
             return true;
@@ -123,13 +185,28 @@ public class Risco {
         return false;
     }
 
-    /**
-     * @return the id
-     */
-    public int getId() {
-        return id;
+    public int getIdRisco() {
+        return idRisco;
     }
     
+    public int getCodigo() {
+		return codigo;
+	}
     
+    public String getNome() {
+    	return nome;
+    }
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public int getImpacto() {
+		return impacto;
+	}
+
+	public int getProbabilidade() {
+		return probabilidade;
+	}
     
 }

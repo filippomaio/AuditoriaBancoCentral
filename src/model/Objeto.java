@@ -4,44 +4,54 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
-public class Processo {
+public class Objeto {
 
-    private Connection cn;
+    private final Connection cn;
     
-    private int idProcesso;
+    private int idObjeto;
     private String nome;
     private String descricao;
-
-    public Processo(Connection cn) {
+    private int idProcesso;
+    
+    public Objeto(Connection cn) {
         this.cn = cn;
     }
 
+    public void setIdObjeto(int idObjeto) {
+    	this.idObjeto = idObjeto;
+    }
+   
+    public void setNome(String nome) {
+    	this.nome = nome;
+    }
     
-    public int getIdProcesso() {
-        return idProcesso;
+    public int getIdObjeto() {
+        return idObjeto;
     }
 
     public String getNome() {
         return nome;
     }
-    
+
     public String getDescricao() {
         return descricao;
     }
 
-    
-    public boolean createProcesso(String nome, String descricao){
-        String query = "INSERT INTO auditoria.processo(nome, descricao)"
-                + " VALUES (?,?)";
+    public int getIdProcesso() {
+            return idProcesso;
+        }
+
+
+    public boolean createObjeto(String nome, String descricao, int idProcesso){
+        String query = "INSERT INTO auditoria.objeto(nome, descricao, idProcesso) VALUES (?,?,?)";
         
         try {
             PreparedStatement ps = cn.prepareStatement(query);
             ps.setString(1, nome);
             ps.setString(2, descricao);
+            ps.setInt(3, idProcesso);
             ps.executeUpdate();
             System.out.println("Add");
         }catch(SQLException ex){
@@ -51,17 +61,18 @@ public class Processo {
         return false;
     }
     
-    public Processo readProcesso(int idProcesso){
-        String query = "SELECT * FROM auditoria.processo WHERE idProcesso = (?)";
+    public Objeto readObjeto(int idObjeto){
+        String query = "SELECT * FROM auditoria.objeto WHERE idObjeto = (?)";
         
         try{
             PreparedStatement ps = cn.prepareStatement(query);
-            ps.setInt(1, idProcesso);
+            ps.setInt(1, idObjeto);
             ResultSet rs = ps.executeQuery();
             rs.next();
-            this.idProcesso = rs.getInt("idProcesso");
+            this.idObjeto = rs.getInt("idObjeto");
             this.nome = rs.getString("nome");
             this.descricao = rs.getString("descricao");
+            this.idProcesso = rs.getInt("idProcesso");
             return this;
         }catch(SQLException ex){
             System.out.println("Um erro aconteceu: " + ex);
@@ -71,17 +82,18 @@ public class Processo {
         return null;
     }
     
-    public Processo readProcesso(String nome){
-        String query = "SELECT * FROM auditoria.processo WHERE nome = (?)";
+    public Objeto readObjeto(String nome){
+        String query = "SELECT * FROM auditoria.objeto WHERE nome = (?)";
         
         try{
             PreparedStatement ps = cn.prepareStatement(query);
             ps.setString(1, nome);
             ResultSet rs = ps.executeQuery();
             rs.next();
-            this.idProcesso = rs.getInt("idProcesso");
+            this.idObjeto = rs.getInt("idObjeto");
             this.nome = rs.getString("nome");
             this.descricao = rs.getString("descricao");
+            this.idProcesso = rs.getInt("idProcesso");
             return this;
         }catch(SQLException ex){
             System.out.println("Um erro aconteceu: " + ex);
@@ -91,14 +103,15 @@ public class Processo {
         return null;
     }
     
-    public boolean updateProcesso(String nome, String descricao, int idProcesso){
-        String query = "UPDATE auditoria.processo SET nome = ?, descricao = ? WHERE auditoria.processo.idProcesso = (?)";
+    public boolean updateProcesso(String nome, String descricao,int idProcesso, int idObjeto){
+        String query = "UPDATE auditoria.objeto SET nome = ?, descricao = ?, idProcesso = ? WHERE auditoria.objeto.idObjeto = (?)";
         
         try {
             PreparedStatement ps = cn.prepareStatement(query);
             ps.setString(1, nome);
             ps.setString(2, descricao);
             ps.setInt(3, idProcesso);
+            ps.setInt(4, idObjeto);
             ps.executeUpdate();
             System.out.println("Alterado");
         }catch(SQLException ex){
@@ -108,11 +121,11 @@ public class Processo {
         return false;
     }
     
-    public boolean deleteProcesso(int idProcesso){
-        String query = "DELETE FROM auditoria.processo WHERE auditoria.processo.idProcesso = (?)";
+    public boolean deleteObjeto(int idObjeto){
+        String query = "DELETE FROM auditoria.objeto WHERE auditoria.objeto.idObjeto = (?)";
         try {
             PreparedStatement ps = cn.prepareStatement(query);
-            ps.setInt(1, idProcesso);
+            ps.setInt(1, idObjeto);
             ps.executeUpdate();
             System.out.println("Deletado");
             return true;
@@ -157,22 +170,22 @@ public class Processo {
     }*/
 
         
-    public ArrayList<Processo> getProcessos(){
-        String query = "SELECT * FROM auditoria.processo";
+    public ArrayList<Objeto> getObjetos(){
+        String query = "SELECT * FROM auditoria.objeto";
         
         try{
             PreparedStatement ps = cn.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
-            ArrayList<Processo> processos = new ArrayList<Processo>();
+            ArrayList<Objeto> objetos = new ArrayList<Objeto>();
             while(rs.next()){
-                Processo processo = new Processo(cn);
-                processo.idProcesso = rs.getInt("idProcesso");
-                processo.nome = rs.getString("nome");
-                processo.descricao = rs.getString("descricao");
-                processos.add(processo);
+                Objeto objeto = new Objeto(cn);
+                objeto.idObjeto = rs.getInt("idObjeto");
+                objeto.nome = rs.getString("nome");
+                objeto.descricao = rs.getString("descricao");
+                objeto.idProcesso = rs.getInt("idProcesso");
+                objetos.add(objeto);
             }
-            System.out.println(processos);
-            return processos;
+            return objetos;
         }catch(SQLException ex){
             System.out.println("Um erro aconteceu: " + ex);
         }

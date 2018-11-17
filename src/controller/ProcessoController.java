@@ -1,87 +1,98 @@
 package controller;
 
-import model.*;
-import java.sql.Connection;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class ProcessoController {
-    private Processo processo;
-    private int id;
-    private String objetivo;
-    private String nomeObj;
-    private String descObjProcesso;
-    private Connection cn;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-    public ProcessoController(Connection cn) {
-        this.cn = cn;
-        this.processo = new Processo(cn);
-    }
-    
-    public boolean validarNomeObj(){
-        return this.processo.readProcesso(getNomeObj()) == null;
-    }
-    
-    
-    
-    
-    
-    public boolean cadastrarProcesso(String nomeObj, String objetivo, String descObjProcesso){      
-        this.nomeObj = nomeObj;
-        if(validarNomeObj()){
-            this.processo.createProcesso(nomeObj, objetivo, descObjProcesso);
-            return true;
-        } 
-       //JOptionPane.showMessageDialog(null, "Objeto com o mesmo nome j√° cadastrado!");
-       return false; 
-    }
-    
-    public Processo pesquisarProcesso(int id){
-        processo = this.processo.readProcesso(id);
-        return processo; 
-    }
-    
-    public boolean atualizarProcesso(String nomeObj, String objetivo, String descObjProcesso, int id){
-        return processo.updateProcesso(nomeObj, objetivo, descObjProcesso, id);
-    }
-    
-    public boolean apagarProcesso(int id){
-        return this.processo.deleteProcesso(id);
-    }
-    
-    public boolean fazerProcessoRisco(String nomeObj, int codRisco){
-        processo = this.processo.readProcesso(nomeObj);
-        Risco risco = new Risco(cn);
-        risco = risco.readRisco(codRisco);
-        
-        this.processo.doProcessoRisco(processo.getId(),risco.getId());
-        return true;
-    }
-    
-    public boolean desfazerProcessoRisco(String nomeObj, int codRisco){
-        processo = this.processo.readProcesso(nomeObj);
-        Risco risco = new Risco(cn);
-        risco = risco.readRisco(codRisco);
-        
-        this.processo.undoProcessoRisco(processo.getId(),risco.getId());
-        return true;
-    }
-    
-    public ArrayList<String> listarProcessosPorNome(){
-        ArrayList<Processo> processos = this.processo.getProcessos();
-        ArrayList<String> lista = new ArrayList<String>();
-        for(int i=0;i<processos.size();i++){
-            lista.add(processos.get(i).getNomeObj());
-        }
-        return lista;
-    }   
+import model.*;
 
+/**
+ * Servlet implementation class ProcessoController
+ */
+@WebServlet("/Processo.do")
+public class ProcessoController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private Processo processo;
+       
     /**
-     * @return the nomeObj
+     * @see HttpServlet#HttpServlet()
      */
-    public String getNomeObj() {
-        return nomeObj;
+    public ProcessoController() {
+        super();
+        // TODO Auto-generated constructor stub
     }
-    
-    
-    
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String acao = request.getParameter("acao");
+		if (acao.equals("cadastrar")){
+			cadastrarProcesso(request,response);
+		}
+	}
+	
+	protected void cadastrarProcesso(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		processo = new Processo(usuario.getCn());
+        
+        String nome = request.getParameter("nome");
+        String descricao = request.getParameter("descricao");
+        
+        if (!hasProcesso(nome,sessao)) {        	
+        	processo.createProcesso(nome, descricao);
+        	request.setAttribute("message", "Processo cadastrado com sucesso!");
+        	carregarProcessos(request);
+            request.getRequestDispatcher("CadastrarProcesso.jsp").forward(request, response);
+        }else {
+        	request.setAttribute("message", "Processo j· existe");
+            request.getRequestDispatcher("CadastrarProcesso.jsp").forward(request, response);
+        }
+	}
+	
+	public boolean hasProcesso(String nome, HttpSession sessao) {
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+        processo = new Processo(usuario.getCn());
+        if(processo.readProcesso(nome) != null) {
+        	return true;
+        }
+        return false;
+	}
+	
+	public void carregarProcessos(HttpServletRequest request) {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		List<Processo> processos = new ArrayList<Processo>();
+		processo = new Processo(usuario.getCn());
+		processos = processo.getProcessos();
+		ArrayList<String> idProcessos = new ArrayList<>();
+		ArrayList<String> nomeProcessos = new ArrayList<>();
+		for(int i=0;i<processos.size();i++) {
+			idProcessos.add(Integer.toString(processos.get(i).getIdProcesso()));
+			nomeProcessos.add(processos.get(i).getNome());
+		}
+		sessao.setAttribute("idProcessos", idProcessos);
+		sessao.setAttribute("nomeProcessos", nomeProcessos);
+		System.out.println(nomeProcessos);
+	}
+	
+	public String getNome() {
+		return processo.getNome();
+	}
+
 }

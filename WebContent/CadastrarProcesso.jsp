@@ -4,13 +4,13 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Cadastrar Processo</title>
 </head>
 <body>
-<form action="CadastrarProcesso.do" method="POST">
-	Nome do Objeto: <input type="text" name="nomeObjeto"><br>
-	Objetivo: <input type="text" name="objetivo"><br>
+<form action="Processo.do?acao=cadastrar" method="POST">
+	Nome do Processo: <input type="text" name="nome"><br>
 	Descrição: <input type="text" name="descricao"><br>
+	${message}
 	<input type="submit" value="Cadastrar" name="btnCadastrar">
 </form>
 </body>
