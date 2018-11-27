@@ -4,7 +4,7 @@
 
 <html lang="pt-br">
 	<head>
-		<title>Processos</title>
+		<title>Mitigações</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -14,7 +14,7 @@
 
 		<!-- Header -->
 			<header id="header">
-				<a href="index.html" class="title">Processos</a>
+				<a href="index.html" class="title">Mitigações</a>
 				<nav>
 					<ul>
 						<li><a href="Home.jsp">Home</a></li>
@@ -28,14 +28,14 @@
 				<!-- Main -->
 					<section id="main" class="wrapper">
 						<div class="inner">
-							<h2>Cadastrar Processos</h2>
-									<form method="post" action="Processo.do?acao=cadastrar">
+							<h2>Cadastrar Mitigações</h2>
+									<form method="post" action="Mitigacao.do?acao=cadastrar">
 										<div class="row gtr-uniform">
 											<div class="col-6 col-12-xsmall">
 												<input type="text" name="nome" id="demo-name" value="" placeholder="Nome" />
 											</div>
 											<div class="col-12">
-												<textarea name="descricao" id="demo-message" placeholder="Descrição do processo" rows="6"></textarea>
+												<textarea name="descricao" id="demo-message" placeholder="Descrição da Mitigação" rows="6"></textarea>
 											</div>
 											<div class="col-12">
 												<ul class="actions">

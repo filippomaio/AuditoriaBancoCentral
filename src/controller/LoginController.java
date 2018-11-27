@@ -51,8 +51,15 @@ public class LoginController extends HttpServlet {
 			HttpSession sessao = request.getSession();
             sessao.setAttribute("usuario", this);
 			request.setAttribute("usuario", this);
+			
+			//Carregar Listas
 			ProcessoController processo = new ProcessoController();
 			processo.carregarProcessos(request);
+			ObjetoController objeto = new ObjetoController();
+			objeto.carregarObjetos(request);
+			RiscoController risco = new RiscoController();
+			risco.carregarRiscos(request);
+			
 			request.getRequestDispatcher("Home.jsp").forward(request,response);
         }else {
         	request.setAttribute("message", "Login e/ou Senha inválidos");

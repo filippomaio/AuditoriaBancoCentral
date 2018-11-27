@@ -19,14 +19,6 @@ public class Objeto {
         this.cn = cn;
     }
 
-    public void setIdObjeto(int idObjeto) {
-    	this.idObjeto = idObjeto;
-    }
-   
-    public void setNome(String nome) {
-    	this.nome = nome;
-    }
-    
     public int getIdObjeto() {
         return idObjeto;
     }
@@ -135,14 +127,13 @@ public class Objeto {
         
         return false;
     }
-    /*
-    public boolean doProcessoRisco(int idProcesso, int idRisco){
-        String query = "INSERT INTO auditoria.processorisco(idProcesso, idRisco)"
-                + " VALUES (?,?)";
+    
+    public boolean associateObjetoRisco(int idObjeto, int idRisco){
+        String query = "INSERT INTO auditoria.objetorisco(idObjeto, idRisco) VALUES (?,?)";
         
         try {
             PreparedStatement ps = cn.prepareStatement(query);
-            ps.setInt(1, idProcesso);
+            ps.setInt(1, idObjeto);
             ps.setInt(2, idRisco);
             ps.executeUpdate();
             System.out.println("Add");
@@ -153,6 +144,23 @@ public class Objeto {
         return false;  
     }
     
+    public boolean readObjetoRisco(int idObjeto, int idRisco){
+        String query = "SELECT * FROM auditoria.objetorisco WHERE idObjeto = (?) and idRisco = (?)";
+        
+        try{
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setInt(1, idObjeto);
+            ps.setInt(2, idRisco);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return true;
+        }catch(SQLException ex){
+            System.out.println("Um erro aconteceu: " + ex);
+        }
+        return false;
+    }
+
+    /*
     public boolean undoProcessoRisco(int idProcesso, int idRisco){
         String query = "DELETE FROM auditoria.processorisco WHERE auditoria.processorisco.idProcesso = ? AND auditoria.processorisco.idRisco = ?";
         

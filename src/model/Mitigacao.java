@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Mitigacao {
     
@@ -122,4 +123,24 @@ public class Mitigacao {
         return false;
     }
     
+    public ArrayList<Mitigacao> getMitigacoes(){
+        String query = "SELECT * FROM auditoria.mitigacao";
+        
+        try{
+            PreparedStatement ps = cn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Mitigacao> mitigacoes = new ArrayList<Mitigacao>();
+            while(rs.next()){
+                Mitigacao mitigacao = new Mitigacao(cn);
+                mitigacao.idMitigacao = rs.getInt("idMitigacao");
+                mitigacao.nome = rs.getString("nome");
+                mitigacao.descricao = rs.getString("descricao");
+                mitigacoes.add(mitigacao);
+            }
+            return mitigacoes;
+        }catch(SQLException ex){
+            System.out.println("Um erro aconteceu: " + ex);
+        }
+        return null;
+    }
 }

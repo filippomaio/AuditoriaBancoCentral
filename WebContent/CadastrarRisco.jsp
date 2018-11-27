@@ -1,20 +1,93 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Cadastrar Risco</title>
-</head>
-<body>
-<form action="Risco.do?acao=cadastrar" method="POST">
-	Código do Risco: <input type="text" name="codigo"><br>
-	Nome: <input type="text" name="nome"><br>
-	Descrição: <input type="text" name="descricao"><br>
-	Impacto: <input type="text" name="impacto"><br>
-	Probabilidade: <input type="text" name="probabilidade"><br>
-	${message }<br>
-	<input type="submit" value="Cadastrar" name="btnCadastrar">
-</form>
-</body>
+<!DOCTYPE HTML>
+
+<html lang="pt-br">
+	<head>
+		<title>Riscos</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Riscos</a>
+				<nav>
+					<ul>
+						<li><a href="Home.jsp">Home</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h2>Cadastrar Riscos</h2>
+									<form method="post" action="Risco.do?acao=cadastrar">
+										<div class="row gtr-uniform">
+											<div class="col-6 col-12-xsmall">
+												<input type="text" name="nome" id="demo-name" value="" placeholder="Nome" />
+											</div>
+                                            <div class="col-6 col-12-xsmall">
+												<input type="email" name="codigo" id="demo-codigo" value="" placeholder="Código do Risco" />
+											</div>
+											<div class="col-12">
+												<textarea name="descricao" id="demo-message" placeholder="Descrição do Risco" rows="6"></textarea>
+											</div>
+                                            <div class="col-12">
+												<select name="impacto" id="demo-category">
+													<option value="">- Impacto -</option>
+													<option value="1">Baixo</option>
+													<option value="2">Médio</option>
+													<option value="3">Alto</option>
+												</select>
+											</div>
+                                            <div class="col-12">
+												<select name="probabilidade" id="demo-category">
+													<option value="">- Probabilidade -</option>
+													<option value="1">Baixa</option>
+													<option value="2">Média</option>
+													<option value="3">Alta</option>
+												</select>
+											</div>
+											
+											<div class="col-12">
+												<ul class="actions">
+													<li><input type="submit" value="Enviar" class="primary" /></li>
+													<li><input type="reset" value="Limpar" /></li>
+												</ul>
+												${message}
+											</div>
+										</div>
+									</form>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper style1-alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Trabalho de analise.</li><li>Integrantes : Arihel Secron, Filippo Maio e Sidney Alves</li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
 </html>

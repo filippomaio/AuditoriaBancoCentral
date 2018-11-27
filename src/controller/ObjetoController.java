@@ -1,6 +1,9 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,6 +44,9 @@ public class ObjetoController extends HttpServlet {
 		if (acao.equals("cadastrar")){
 			cadastrarObjeto(request,response);
 		}
+		if (acao.equals("associar")) {
+			associarObjetoRisco(request,response);
+		}
 	}
 	
 	protected void cadastrarObjeto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -62,10 +68,55 @@ public class ObjetoController extends HttpServlet {
         }
 	}
 	
+	public void carregarObjetos(HttpServletRequest request) {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		List<Objeto> objetos = new ArrayList<Objeto>();
+		objeto = new Objeto(usuario.getCn());
+		objetos = objeto.getObjetos();
+		ArrayList<String> idObjetos = new ArrayList<>();
+		ArrayList<String> nomeObjetos = new ArrayList<>();
+		for(int i=0;i<objetos.size();i++) {
+			idObjetos.add(Integer.toString(objetos.get(i).getIdObjeto()));
+			nomeObjetos.add(objetos.get(i).getNome());
+		}
+		sessao.setAttribute("idObjetos", idObjetos);
+		sessao.setAttribute("nomeObjetos", nomeObjetos);
+	}
+	
+	protected void associarObjetoRisco(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		objeto = new Objeto(usuario.getCn());
+        		
+		int idObjeto = Integer.parseInt(request.getParameter("idObjeto"));
+		int idRisco = Integer.parseInt(request.getParameter("idRisco"));
+        
+		if (!hasObjetoRisco(idObjeto, idRisco, sessao)) {        	
+			objeto.associateObjetoRisco(idObjeto, idRisco);
+			request.setAttribute("message", "Objeto e Risco associado com sucesso!");
+            request.getRequestDispatcher("AssociarObjetoRisco.jsp").forward(request, response);
+        }else {
+        	request.setAttribute("message", "Objeto já está associado com esse Risco");
+            request.getRequestDispatcher("AssociarObjetoRisco.jsp").forward(request, response);
+        }
+		
+		
+	}
+	
 	public boolean hasObjeto(String nome, HttpSession sessao) {
 		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
         objeto = new Objeto(usuario.getCn());
         if(objeto.readObjeto(nome) != null) {
+        	return true;
+        }
+        return false;
+	}
+	
+	public boolean hasObjetoRisco(int idObjeto, int idRisco, HttpSession sessao) {
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+        objeto = new Objeto(usuario.getCn());
+        if(objeto.readObjetoRisco(idObjeto,idRisco)) {
         	return true;
         }
         return false;
