@@ -76,12 +76,18 @@ public class ObjetoController extends HttpServlet {
 		objetos = objeto.getObjetos();
 		ArrayList<String> idObjetos = new ArrayList<>();
 		ArrayList<String> nomeObjetos = new ArrayList<>();
+		ArrayList<String> descricaoObjetos = new ArrayList<>();
+		ArrayList<String> idProcessoObjetos = new ArrayList<>();
 		for(int i=0;i<objetos.size();i++) {
 			idObjetos.add(Integer.toString(objetos.get(i).getIdObjeto()));
 			nomeObjetos.add(objetos.get(i).getNome());
+			descricaoObjetos.add(objetos.get(i).getDescricao());
+			idProcessoObjetos.add(Integer.toString(objetos.get(i).getIdProcesso()));
 		}
 		sessao.setAttribute("idObjetos", idObjetos);
 		sessao.setAttribute("nomeObjetos", nomeObjetos);
+		sessao.setAttribute("descricaoObjetos", descricaoObjetos);
+		sessao.setAttribute("idProcessoObjetos", idProcessoObjetos);
 	}
 	
 	protected void associarObjetoRisco(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

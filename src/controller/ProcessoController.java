@@ -82,13 +82,16 @@ public class ProcessoController extends HttpServlet {
 		processos = processo.getProcessos();
 		ArrayList<String> idProcessos = new ArrayList<>();
 		ArrayList<String> nomeProcessos = new ArrayList<>();
+		ArrayList<String> descricaoProcessos = new ArrayList<>();
 		for(int i=0;i<processos.size();i++) {
 			idProcessos.add(Integer.toString(processos.get(i).getIdProcesso()));
 			nomeProcessos.add(processos.get(i).getNome());
+			descricaoProcessos.add(processos.get(i).getDescricao());
 		}
 		sessao.setAttribute("idProcessos", idProcessos);
 		sessao.setAttribute("nomeProcessos", nomeProcessos);
-		System.out.println(nomeProcessos);
+		sessao.setAttribute("descricaoProcessos", descricaoProcessos);
+		//System.out.println(nomeProcessos);
 	}
 	
 	public String getNome() {

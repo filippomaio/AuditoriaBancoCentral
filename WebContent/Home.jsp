@@ -50,7 +50,7 @@
 									<h2>Processos</h2>
 									<p>Operações envolvendo os processos</p>
 									<ul class="actions">
-										<li><a href="visualizarProcesso.html" class="button">Visualizar</a>
+										<li><a href="VisualizarProcesso.jsp" class="button">Visualizar</a>
                                             <a href="CadastrarProcesso.jsp" class="button">Cadastrar</a>
                                             <a href="#" class="button">Gerenciar</a>
                                         </li>
@@ -66,7 +66,7 @@
 									<h2>Objetos</h2>
 									<p>Operações envolvendo os Objetos</p>
 									<ul class="actions">
-										<li><a href="visualizarObjeto.html" class="button">Visualizar</a>
+										<li><a href="VisualizarObjeto.jsp" class="button">Visualizar</a>
                                             <a href="CadastrarObjeto.jsp" class="button">Cadastrar</a>
                                             <a href="#" class="button">Gerenciar</a>
                                         </li>

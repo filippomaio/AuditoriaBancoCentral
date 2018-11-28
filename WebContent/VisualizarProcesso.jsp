@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.List" %> 
 <!DOCTYPE HTML>
 
 <html lang="pt-br">
@@ -17,7 +18,7 @@
 				<a href="index.html" class="title">Processos</a>
 				<nav>
 					<ul>
-						<li><a href="index.html">Home</a></li>
+						<li><a href="Home.jsp">Home</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -32,37 +33,28 @@
 										<table>
 											<thead>
 												<tr>
+													<th>Id</th>
 													<th>Nome</th>
-													<th>DescriÃ§Ã£o</th>
-													<th>ID</th>
+													<th>Descrição</th>
 												</tr>
 											</thead>
 											<tbody>
-												<tr>
-													<td></td>
-													<td></td>
-													<td></td>
-												</tr>
-												<tr>
-													<td></td>
-													<td></td>
-													<td></td>
-												</tr>
-												<tr>
-													<td></td>
-													<td></td>
-													<td></td>
-												</tr>
-												<tr>
-													<td></td>
-													<td></td>
-													<td></td>
-												</tr>
-												<tr>
-													<td></td>
-													<td></td>
-													<td></td>
-												</tr>
+											<%
+											List listaIdProcesso = (List)session.getAttribute("idProcessos");
+											List listaNomeProcesso = (List)session.getAttribute("nomeProcessos");
+											List listaDescricaoProcesso = (List)session.getAttribute("descricaoProcessos");
+											for(int i = 0; i < listaIdProcesso.size(); i++) {
+												String idProcesso = listaIdProcesso.get(i).toString();
+												String nomeProcesso = listaNomeProcesso.get(i).toString();
+												String descricaoProcesso = listaDescricaoProcesso.get(i).toString();
+ 											%>
+ 											<tr>
+ 												<td><%=idProcesso%></td>
+                  								<td><%=nomeProcesso%></td>
+                  								<td><%=descricaoProcesso%></td>
+                  							</tr>															
+ 											<% } //fecha for
+											%>
 											</tbody>
 										</table>
 									</div>
