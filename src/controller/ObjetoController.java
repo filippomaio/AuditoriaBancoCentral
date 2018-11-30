@@ -33,7 +33,13 @@ public class ObjetoController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		String acao = request.getParameter("acao");
+		int idObjeto = Integer.parseInt(request.getParameter("idObjeto"));
+		if (acao.equals("editar")){
+			//editarObjeto(idObjeto,request,response);
+		}else if (acao.equals("remover")){
+			//removerObjeto(idObjeto,request,response);
+		}
 	}
 
 	/**
@@ -61,6 +67,7 @@ public class ObjetoController extends HttpServlet {
         if (!hasObjeto(nome,sessao)) {        	
         	objeto.createObjeto(nome, descricao, idProcesso);
         	request.setAttribute("message", "Objeto cadastrado com sucesso!");
+        	carregarObjetos(request);
             request.getRequestDispatcher("CadastrarObjeto.jsp").forward(request, response);
         }else {
         	request.setAttribute("message", "Objeto já existe");

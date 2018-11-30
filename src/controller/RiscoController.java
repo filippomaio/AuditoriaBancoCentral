@@ -33,7 +33,13 @@ public class RiscoController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		String acao = request.getParameter("acao");
+		int idRisco = Integer.parseInt(request.getParameter("idRisco"));
+		if (acao.equals("editar")){
+			//editarRisco(idRisco,request,response);
+		}else if (acao.equals("remover")){
+			//removerRisco(idRisco,request,response);
+		}
 	}
 
 	/**
@@ -116,17 +122,26 @@ public class RiscoController extends HttpServlet {
 		risco = new Risco(usuario.getCn());
 		riscos = risco.getRiscos();
 		ArrayList<String> idRiscos = new ArrayList<>();
-		ArrayList<String> nomeRiscos = new ArrayList<>();
 		ArrayList<String> codigoRiscos = new ArrayList<>();
+		ArrayList<String> nomeRiscos = new ArrayList<>();
+		ArrayList<String> descricaoRiscos = new ArrayList<>();
+		ArrayList<String> impactoRiscos = new ArrayList<>();
+		ArrayList<String> probabilidadeRiscos = new ArrayList<>();
 		for(int i=0;i<riscos.size();i++) {
 			idRiscos.add(Integer.toString(riscos.get(i).getIdRisco()));
-			nomeRiscos.add(riscos.get(i).getNome());
 			codigoRiscos.add(Integer.toString(riscos.get(i).getCodigo()));
+			nomeRiscos.add(riscos.get(i).getNome());
+			descricaoRiscos.add(riscos.get(i).getDescricao());
+			impactoRiscos.add(Integer.toString(riscos.get(i).getImpacto()));
+			probabilidadeRiscos.add(Integer.toString(riscos.get(i).getProbabilidade()));
 		}
 		sessao.setAttribute("idRiscos", idRiscos);
-		sessao.setAttribute("nomeRiscos", nomeRiscos);
 		sessao.setAttribute("codigoRiscos", codigoRiscos);
-		System.out.println(nomeRiscos);
+		sessao.setAttribute("nomeRiscos", nomeRiscos);
+		sessao.setAttribute("descricaoRiscos", descricaoRiscos);
+		sessao.setAttribute("impactoRiscos", impactoRiscos);
+		sessao.setAttribute("probabilidadeRiscos", probabilidadeRiscos);
+		//System.out.println(nomeRiscos);
 	}
 	
 	public String getNome() {

@@ -59,6 +59,8 @@ public class LoginController extends HttpServlet {
 			objeto.carregarObjetos(request);
 			RiscoController risco = new RiscoController();
 			risco.carregarRiscos(request);
+			MitigacaoController mitigacao = new MitigacaoController();
+			mitigacao.carregarMitigacoes(request);
 			
 			request.getRequestDispatcher("Home.jsp").forward(request,response);
         }else {

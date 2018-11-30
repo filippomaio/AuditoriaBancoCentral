@@ -33,7 +33,13 @@ public class MitigacaoController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		String acao = request.getParameter("acao");
+		int idMitigacao = Integer.parseInt(request.getParameter("idMitigacao"));
+		if (acao.equals("editar")){
+			//editarMitigacao(idMitigacao,request,response);
+		}else if (acao.equals("remover")){
+			//removerMitigacao(idMitigacao,request,response);
+		}
 	}
 
 	/**
@@ -43,6 +49,8 @@ public class MitigacaoController extends HttpServlet {
 		String acao = request.getParameter("acao");
 		if (acao.equals("cadastrar")){
 			cadastrarMitigacao(request,response);
+		}else if (acao.equals("associar")){
+			//associarMitigacao(request,response);
 		}
 	}
 	
@@ -82,12 +90,15 @@ public class MitigacaoController extends HttpServlet {
 		mitigacoes = mitigacao.getMitigacoes();
 		ArrayList<String> idMitigacoes = new ArrayList<>();
 		ArrayList<String> nomeMitigacoes = new ArrayList<>();
+		ArrayList<String> descricaoMitigacoes = new ArrayList<>();
 		for(int i=0;i<mitigacoes.size();i++) {
 			idMitigacoes.add(Integer.toString(mitigacoes.get(i).getIdMitigacao()));
 			nomeMitigacoes.add(mitigacoes.get(i).getNome());
+			descricaoMitigacoes.add(mitigacoes.get(i).getDescricao());
 		}
 		sessao.setAttribute("idMitigacoes", idMitigacoes);
 		sessao.setAttribute("nomeMitigacoes", nomeMitigacoes);
+		sessao.setAttribute("descricaoMitigacoes", descricaoMitigacoes);
 	}
 	
 	public String getNome() {

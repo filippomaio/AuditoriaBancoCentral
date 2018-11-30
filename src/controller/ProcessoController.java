@@ -33,7 +33,13 @@ public class ProcessoController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		String acao = request.getParameter("acao");
+		int idProcesso = Integer.parseInt(request.getParameter("idProcesso"));
+		if (acao.equals("editar")){
+			//editarProcesso(idProcesso,request,response);
+		}else if (acao.equals("remover")){
+			//removerProcesso(idProcesso,request,response);
+		}
 	}
 
 	/**

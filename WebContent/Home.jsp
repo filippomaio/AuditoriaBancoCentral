@@ -52,7 +52,7 @@
 									<ul class="actions">
 										<li><a href="VisualizarProcesso.jsp" class="button">Visualizar</a>
                                             <a href="CadastrarProcesso.jsp" class="button">Cadastrar</a>
-                                            <a href="#" class="button">Gerenciar</a>
+                                            <a href="GerenciarProcesso.jsp" class="button">Gerenciar</a>
                                         </li>
 									</ul>
 								</div>
@@ -68,7 +68,11 @@
 									<ul class="actions">
 										<li><a href="VisualizarObjeto.jsp" class="button">Visualizar</a>
                                             <a href="CadastrarObjeto.jsp" class="button">Cadastrar</a>
-                                            <a href="#" class="button">Gerenciar</a>
+                                            <a href="GerenciarObjeto.jsp" class="button">Gerenciar</a>
+                                            <!-- Aqui ? ou em Risco ? ou nos 2? -->
+                                            <a href="AssociarObjetoRisco.jsp" class="button">Associar Objeto - Risco</a>
+                                            <!-- Aqui ? ou em Mitigacao ? ou nos 2? -->
+                                            <a href="AssociarObjetoRiscoMitigacao.jsp" class="button">Associar Objeto - Risco - Mitigacao</a>
                                         </li>
 									</ul>
 								</div>
@@ -81,9 +85,9 @@
 									<h2>Riscos</h2>
 									<p>Operações envolvendo os Riscos</p>
 									<ul class="actions">
-										<li><a href="visualizarRisco.html" class="button">Visualizar</a>
+										<li><a href="VisualizarRisco.jsp" class="button">Visualizar</a>
                                             <a href="CadastrarRisco.jsp" class="button">Cadastrar</a>
-                                            <a href="#" class="button">Gerenciar</a>
+                                            <a href="GerenciarRisco.jsp" class="button">Gerenciar</a>
                                         </li>
 									</ul>
 								</div>
@@ -96,9 +100,9 @@
 									<h2>Mitigações</h2>
 									<p>Operações envolvendo as mitigações</p>
 									<ul class="actions">
-										<li><a href="visualizarMitiga%C3%A7ao.html" class="button">Visualizar</a>
+										<li><a href="VisualizarMitigacao.jsp" class="button">Visualizar</a>
                                             <a href="CadastrarMitigacao.jsp" class="button">Cadastrar</a>
-                                            <a href="#" class="button">Gerenciar</a>
+                                            <a href="GerenciarMitigacao.jsp" class="button">Gerenciar</a>
                                             <br>
                                             <a href="#" class="button">Auditar</a>
                                         </li>

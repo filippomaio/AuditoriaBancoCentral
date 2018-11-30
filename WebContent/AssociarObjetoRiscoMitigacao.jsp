@@ -8,8 +8,8 @@
 <title>Associar Objeto Risco</title>
 </head>
 <body>
-<form action="Objeto.do?acao=associar" method="POST">
-	Objetos:<select name="idObjeto">
+<form action="Mitigacao.do?acao=associar" method="POST">
+	Objeto - Risco:<select name="idObjetoRisco">
 	<%
   	List lista1 = (List)session.getAttribute("idObjetos");
   	List lista2 = (List)session.getAttribute("nomeObjetos");
