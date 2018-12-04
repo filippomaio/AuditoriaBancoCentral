@@ -55,12 +55,20 @@ public class LoginController extends HttpServlet {
 			//Carregar Listas
 			ProcessoController processo = new ProcessoController();
 			processo.carregarProcessos(request);
+			
 			ObjetoController objeto = new ObjetoController();
 			objeto.carregarObjetos(request);
+			objeto.carregarObjetosRisco(request);
+			
 			RiscoController risco = new RiscoController();
 			risco.carregarRiscos(request);
+			risco.carregarObjetoRiscos(request);			
+			risco.carregarMatrizRisco(request, response);
+			
 			MitigacaoController mitigacao = new MitigacaoController();
 			mitigacao.carregarMitigacoes(request);
+			mitigacao.carregarObjetosRiscosMitigacoes(request);
+			mitigacao.carregarMatrizControle(request, response);
 			
 			request.getRequestDispatcher("Home.jsp").forward(request,response);
         }else {

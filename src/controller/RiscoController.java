@@ -34,7 +34,7 @@ public class RiscoController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String acao = request.getParameter("acao");
-		int idRisco = Integer.parseInt(request.getParameter("idRisco"));
+		String codigoRisco = request.getParameter("codigoRisco");
 		if (acao.equals("editar")){
 			//editarRisco(idRisco,request,response);
 		}else if (acao.equals("remover")){
@@ -49,9 +49,6 @@ public class RiscoController extends HttpServlet {
 		String acao = request.getParameter("acao");
 		if (acao.equals("cadastrar")){
 			cadastrarRisco(request,response);
-		}
-		if (acao.equals("matriz")){
-			matrizRisco(request,response);
 		}
 	}
 	
@@ -70,6 +67,7 @@ public class RiscoController extends HttpServlet {
         	risco.createRisco(codigo, nome, descricao, impacto, probabilidade);
         	request.setAttribute("message", "Risco cadastrado com sucesso!");
         	carregarRiscos(request);
+        	carregarMatrizRisco(request,response);
             request.getRequestDispatcher("CadastrarRisco.jsp").forward(request, response);
         }else {
         	request.setAttribute("message", "Risco já existe");
@@ -86,20 +84,36 @@ public class RiscoController extends HttpServlet {
         return false;
 	}
 	
-	public void matrizRisco(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	public void carregarMatrizRisco(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		HttpSession sessao = request.getSession();
 		
 		sessao.setAttribute("d11", separarMatriz(1, 1, request));
 		sessao.setAttribute("d12", separarMatriz(1, 2, request));
 		sessao.setAttribute("d13", separarMatriz(1, 3, request));
+		sessao.setAttribute("d14", separarMatriz(1, 4, request));
+		sessao.setAttribute("d15", separarMatriz(1, 5, request));
 		sessao.setAttribute("d21", separarMatriz(2, 1, request));
 		sessao.setAttribute("d22", separarMatriz(2, 2, request));
 		sessao.setAttribute("d23", separarMatriz(2, 3, request));
+		sessao.setAttribute("d24", separarMatriz(2, 4, request));
+		sessao.setAttribute("d25", separarMatriz(2, 5, request));
 		sessao.setAttribute("d31", separarMatriz(3, 1, request));
 		sessao.setAttribute("d32", separarMatriz(3, 2, request));
 		sessao.setAttribute("d33", separarMatriz(3, 3, request));
+		sessao.setAttribute("d34", separarMatriz(3, 4, request));
+		sessao.setAttribute("d35", separarMatriz(3, 5, request));
+		sessao.setAttribute("d41", separarMatriz(4, 1, request));
+		sessao.setAttribute("d42", separarMatriz(4, 2, request));
+		sessao.setAttribute("d43", separarMatriz(4, 3, request));
+		sessao.setAttribute("d44", separarMatriz(4, 4, request));
+		sessao.setAttribute("d45", separarMatriz(4, 5, request));
+		sessao.setAttribute("d51", separarMatriz(5, 1, request));
+		sessao.setAttribute("d52", separarMatriz(5, 2, request));
+		sessao.setAttribute("d53", separarMatriz(5, 3, request));
+		sessao.setAttribute("d54", separarMatriz(5, 4, request));
+		sessao.setAttribute("d55", separarMatriz(5, 5, request));
 	    
-		request.getRequestDispatcher("Matriz1.jsp").forward(request, response);
+		//request.getRequestDispatcher("Matriz1.jsp").forward(request, response);
 	}
 	
 	protected ArrayList<String> separarMatriz(int imp, int pro, HttpServletRequest request){
@@ -143,6 +157,36 @@ public class RiscoController extends HttpServlet {
 		sessao.setAttribute("probabilidadeRiscos", probabilidadeRiscos);
 		//System.out.println(nomeRiscos);
 	}
+	
+	public void carregarObjetoRiscos(HttpServletRequest request) {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		List<Risco> riscos = new ArrayList<Risco>();
+		risco = new Risco(usuario.getCn());
+		riscos = risco.getObjetoRiscos();
+		ArrayList<String> idRiscos = new ArrayList<>();
+		ArrayList<String> codigoRiscos = new ArrayList<>();
+		ArrayList<String> nomeRiscos = new ArrayList<>();
+		ArrayList<String> descricaoRiscos = new ArrayList<>();
+		ArrayList<String> impactoRiscos = new ArrayList<>();
+		ArrayList<String> probabilidadeRiscos = new ArrayList<>();
+		for(int i=0;i<riscos.size();i++) {
+			idRiscos.add(Integer.toString(riscos.get(i).getIdRisco()));
+			codigoRiscos.add(Integer.toString(riscos.get(i).getCodigo()));
+			nomeRiscos.add(riscos.get(i).getNome());
+			descricaoRiscos.add(riscos.get(i).getDescricao());
+			impactoRiscos.add(Integer.toString(riscos.get(i).getImpacto()));
+			probabilidadeRiscos.add(Integer.toString(riscos.get(i).getProbabilidade()));
+		}
+		sessao.setAttribute("idRiscosObjetos", idRiscos);
+		sessao.setAttribute("codigoRiscosObjetos", codigoRiscos);
+		sessao.setAttribute("nomeRiscosObjetos", nomeRiscos);
+		sessao.setAttribute("descricaoRiscosObjetos", descricaoRiscos);
+		sessao.setAttribute("impactoRiscosObjetos", impactoRiscos);
+		sessao.setAttribute("probabilidadeRiscosObjetos", probabilidadeRiscos);
+		//System.out.println(nomeRiscos);
+	}
+
 	
 	public String getNome() {
 		return risco.getNome();

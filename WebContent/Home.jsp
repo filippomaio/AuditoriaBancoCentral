@@ -69,6 +69,7 @@
 										<li><a href="VisualizarObjeto.jsp" class="button">Visualizar</a>
                                             <a href="CadastrarObjeto.jsp" class="button">Cadastrar</a>
                                             <a href="GerenciarObjeto.jsp" class="button">Gerenciar</a>
+                                            <br> <br>
                                             <!-- Aqui ? ou em Risco ? ou nos 2? -->
                                             <a href="AssociarObjetoRisco.jsp" class="button">Associar Objeto - Risco</a>
                                             <!-- Aqui ? ou em Mitigacao ? ou nos 2? -->
@@ -104,7 +105,7 @@
                                             <a href="CadastrarMitigacao.jsp" class="button">Cadastrar</a>
                                             <a href="GerenciarMitigacao.jsp" class="button">Gerenciar</a>
                                             <br>
-                                            <a href="#" class="button">Auditar</a>
+                                            <a href="AuditarMitigacao.jsp" class="button">Auditar</a>
                                         </li>
 									</ul>
 								</div>
@@ -117,8 +118,8 @@
 									<h2>Paints</h2>
 									<p>Acesso aos paints de controle</p>
 									<ul class="actions">
-										<li><a href="#" class="button">Nome esquecido</a>
-                                            <a href="#" class="button">Hiato de controle</a>
+										<li><a href="MatrizRisco.jsp" class="button">Matriz de Risco</a>
+                                            <a href="MatrizControle.jsp" class="button">Matriz Hiato de Controle</a>
                                         </li>
 									</ul>
 								</div>

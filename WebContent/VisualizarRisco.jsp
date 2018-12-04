@@ -55,6 +55,30 @@
 												String descricaoRisco = listaDescricaoRisco.get(i).toString();
 												String impactoRisco = listaImpactoRisco.get(i).toString();
 												String probabilidadeRisco = listaProbabilidadeRisco.get(i).toString();
+												
+												if (impactoRisco.equals("1")){
+													impactoRisco = "Nulo";
+												}else if (impactoRisco.equals("2")){
+													impactoRisco = "Baixo";
+												}else if (impactoRisco.equals("3")){
+													impactoRisco = "Médio";
+												}else if (impactoRisco.equals("4")){
+													impactoRisco = "Alto";
+												}else if (impactoRisco.equals("5")){
+													impactoRisco = "Muito Alto";
+												}
+												
+												if (probabilidadeRisco.equals("1")){
+													probabilidadeRisco = "Improvável";
+												}else if (probabilidadeRisco.equals("2")){
+													probabilidadeRisco = "Baixa";
+												}else if (probabilidadeRisco.equals("3")){
+													probabilidadeRisco = "Média";
+												}else if (probabilidadeRisco.equals("4")){
+													probabilidadeRisco = "Alta";
+												}else if (probabilidadeRisco.equals("5")){
+													probabilidadeRisco = "Muito Alta";
+												}
  											%>
  											<tr>
  												<td><%=codigoRisco%></td>

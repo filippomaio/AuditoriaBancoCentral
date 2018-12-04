@@ -14,6 +14,7 @@ public class Objeto {
     private String nome;
     private String descricao;
     private int idProcesso;
+    private int idObjetoRisco;
     
     public Objeto(Connection cn) {
         this.cn = cn;
@@ -32,8 +33,12 @@ public class Objeto {
     }
 
     public int getIdProcesso() {
-            return idProcesso;
-        }
+        return idProcesso;
+    }
+    
+    public int getIdObjetoRisco() {
+        return idObjetoRisco;
+    }
 
 
     public boolean createObjeto(String nome, String descricao, int idProcesso){
@@ -137,6 +142,7 @@ public class Objeto {
             ps.setInt(2, idRisco);
             ps.executeUpdate();
             System.out.println("Add");
+            return true;
         }catch(SQLException ex){
             System.out.println("Um erro aconteceu: " + ex);
         }
@@ -144,7 +150,7 @@ public class Objeto {
         return false;  
     }
     
-    public boolean readObjetoRisco(int idObjeto, int idRisco){
+    public Objeto readObjetoRisco(int idObjeto, int idRisco){
         String query = "SELECT * FROM auditoria.objetorisco WHERE idObjeto = (?) and idRisco = (?)";
         
         try{
@@ -153,11 +159,12 @@ public class Objeto {
             ps.setInt(2, idRisco);
             ResultSet rs = ps.executeQuery();
             rs.next();
-            return true;
+            this.idObjeto = rs.getInt("idObjeto");
+            return this;
         }catch(SQLException ex){
             System.out.println("Um erro aconteceu: " + ex);
         }
-        return false;
+        return null;
     }
 
     /*
@@ -191,6 +198,29 @@ public class Objeto {
                 objeto.nome = rs.getString("nome");
                 objeto.descricao = rs.getString("descricao");
                 objeto.idProcesso = rs.getInt("idProcesso");
+                objetos.add(objeto);
+            }
+            return objetos;
+        }catch(SQLException ex){
+            System.out.println("Um erro aconteceu: " + ex);
+        }
+        return null;
+    }
+    
+    public ArrayList<Objeto> getObjetosRisco(){
+        String query = "SELECT * FROM auditoria.objetorisco INNER JOIN auditoria.objeto ON auditoria.objetorisco.idObjeto = auditoria.objeto.idObjeto";
+        
+        try{
+            PreparedStatement ps = cn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Objeto> objetos = new ArrayList<Objeto>();
+            while(rs.next()){
+                Objeto objeto = new Objeto(cn);
+                objeto.idObjeto = rs.getInt("idObjeto");
+                objeto.nome = rs.getString("nome");
+                objeto.descricao = rs.getString("descricao");
+                objeto.idProcesso = rs.getInt("idProcesso");
+                objeto.idObjetoRisco = rs.getInt("idObjetoRisco");
                 objetos.add(objeto);
             }
             return objetos;

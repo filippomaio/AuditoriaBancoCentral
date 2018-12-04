@@ -65,6 +65,32 @@ public class Risco {
         return null;
     }
 
+    public ArrayList<Risco> getObjetoRiscos(){
+        String query = "SELECT * FROM auditoria.objetorisco INNER JOIN auditoria.risco ON auditoria.objetorisco.idRisco = auditoria.risco.idRisco";
+        
+        try{
+            PreparedStatement ps = cn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Risco> riscos = new ArrayList<Risco>();
+            while(rs.next()){
+                Risco risco = new Risco(cn);
+                risco.idRisco = rs.getInt("idRisco");
+                risco.codigo = rs.getInt("codigo");
+                risco.nome = rs.getString("nome");
+                risco.descricao = rs.getString("descricao");
+                risco.impacto = rs.getInt("impacto");
+                risco.probabilidade = rs.getInt("probabilidade");
+                riscos.add(risco);
+            }
+            System.out.println(riscos);
+            return riscos;
+        }catch(SQLException ex){
+            System.out.println("Um erro aconteceu: " + ex);
+        }
+        return null;
+    }
+
+    
     public ArrayList<Risco> getRiscos(int impacto, int probabilidade){
         String query = "SELECT * FROM auditoria.risco WHERE impacto = (?) and probabilidade = (?)";
         

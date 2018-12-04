@@ -35,25 +35,29 @@
 												<input type="text" name="nome" id="demo-name" value="" placeholder="Nome" />
 											</div>
                                             <div class="col-6 col-12-xsmall">
-												<input type="email" name="codigo" id="demo-codigo" value="" placeholder="Código do Risco" />
+												<input type="text" name="codigo" id="demo-codigo" value="" placeholder="Código do Risco" />
 											</div>
 											<div class="col-12">
-												<textarea name="descricao" id="demo-message" placeholder="Descrição do Risco" rows="6"></textarea>
+												<textarea maxlenght="10" name="descricao" id="demo-message" placeholder="Descrição do Risco" rows="6"></textarea>
 											</div>
                                             <div class="col-12">
 												<select name="impacto" id="demo-category">
 													<option value="">- Impacto -</option>
-													<option value="1">Baixo</option>
-													<option value="2">Médio</option>
-													<option value="3">Alto</option>
+													<option value="1">Nulo</option>
+													<option value="2">Baixo</option>
+													<option value="3">Médio</option>
+													<option value="4">Alto</option>
+													<option value="5">Muito Alto</option>
 												</select>
 											</div>
                                             <div class="col-12">
 												<select name="probabilidade" id="demo-category">
 													<option value="">- Probabilidade -</option>
-													<option value="1">Baixa</option>
-													<option value="2">Média</option>
-													<option value="3">Alta</option>
+													<option value="1">Improvável</option>
+													<option value="2">Baixa</option>
+													<option value="3">Média</option>
+													<option value="4">Alta</option>
+													<option value="5">Muito Alta</option>
 												</select>
 											</div>
 											

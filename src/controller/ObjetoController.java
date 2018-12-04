@@ -97,23 +97,68 @@ public class ObjetoController extends HttpServlet {
 		sessao.setAttribute("idProcessoObjetos", idProcessoObjetos);
 	}
 	
+	public void carregarObjetosRisco(HttpServletRequest request) {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		List<Objeto> objetos = new ArrayList<Objeto>();
+		objeto = new Objeto(usuario.getCn());
+		objetos = objeto.getObjetosRisco();
+		ArrayList<String> idObjetosRiscos = new ArrayList<>();
+		ArrayList<String> idObjetos = new ArrayList<>();
+		ArrayList<String> nomeObjetos = new ArrayList<>();
+		ArrayList<String> descricaoObjetos = new ArrayList<>();
+		ArrayList<String> idProcessoObjetos = new ArrayList<>();
+		for(int i=0;i<objetos.size();i++) {
+			idObjetosRiscos.add(Integer.toString(objetos.get(i).getIdObjetoRisco()));
+			idObjetos.add(Integer.toString(objetos.get(i).getIdObjeto()));
+			nomeObjetos.add(objetos.get(i).getNome());
+			descricaoObjetos.add(objetos.get(i).getDescricao());
+			idProcessoObjetos.add(Integer.toString(objetos.get(i).getIdProcesso()));
+		}
+		sessao.setAttribute("idObjetosObjetosRiscos", idObjetosRiscos);
+		sessao.setAttribute("idObjetosRiscos", idObjetos);
+		sessao.setAttribute("nomeObjetosRiscos", nomeObjetos);
+		sessao.setAttribute("descricaoObjetosRiscos", descricaoObjetos);
+		sessao.setAttribute("idProcessoObjetosRiscos", idProcessoObjetos);
+	}
+	
 	protected void associarObjetoRisco(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession sessao = request.getSession();
 		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
 		objeto = new Objeto(usuario.getCn());
         		
-		int idObjeto = Integer.parseInt(request.getParameter("idObjeto"));
-		int idRisco = Integer.parseInt(request.getParameter("idRisco"));
+		int idObjeto = Integer.parseInt(request.getParameter("selectIdObjeto"));
+		int idRisco = Integer.parseInt(request.getParameter("selectIdRisco"));
         
 		if (!hasObjetoRisco(idObjeto, idRisco, sessao)) {        	
 			objeto.associateObjetoRisco(idObjeto, idRisco);
 			request.setAttribute("message", "Objeto e Risco associado com sucesso!");
+			carregarObjetos(request);
+			carregarObjetosRisco(request);
+
+			//Carregar Listas
+			ProcessoController processo = new ProcessoController();
+			processo.carregarProcessos(request);
+			
+			carregarObjetos(request);
+			carregarObjetosRisco(request);
+			
+			RiscoController risco = new RiscoController();
+			risco.carregarRiscos(request);
+			risco.carregarObjetoRiscos(request);			
+			risco.carregarMatrizRisco(request, response);
+			
+			MitigacaoController mitigacao = new MitigacaoController();
+			mitigacao.carregarMitigacoes(request);
+			mitigacao.carregarObjetosRiscosMitigacoes(request);
+			mitigacao.carregarMatrizControle(request, response);
+			
+			
             request.getRequestDispatcher("AssociarObjetoRisco.jsp").forward(request, response);
         }else {
         	request.setAttribute("message", "Objeto já está associado com esse Risco");
             request.getRequestDispatcher("AssociarObjetoRisco.jsp").forward(request, response);
-        }
-		
+        }		
 		
 	}
 	
@@ -129,7 +174,7 @@ public class ObjetoController extends HttpServlet {
 	public boolean hasObjetoRisco(int idObjeto, int idRisco, HttpSession sessao) {
 		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
         objeto = new Objeto(usuario.getCn());
-        if(objeto.readObjetoRisco(idObjeto,idRisco)) {
+        if(objeto.readObjetoRisco(idObjeto,idRisco) != null) {
         	return true;
         }
         return false;

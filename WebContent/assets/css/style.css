@@ -1,0 +1,145 @@
+.wrapper{
+	display: flex-end;
+}
+
+.impactoText{
+	text-align: center;
+	margin: 0px;
+	-webkit-transform:rotate(270deg);
+	-moz-transform:rotate(270deg);
+	-o-transform: rotate(270deg);
+	position: absolute;
+	margin:0px;
+	padding:0px;
+	left: -26px;
+	bottom: 275px;
+	z-index: 999;
+}
+
+.matriz{
+	height: 500px;
+	display: flex;
+	width:95%;
+	float:right;
+	flex-wrap: wrap;
+	z-index: 1;
+}
+
+.itemMatriz{
+	width:20%;
+	margin:0px;
+	border-style: solid;
+	border-width:1px;
+}
+
+.textoItemMatriz{
+	color:#2C3E50;
+	font-size:18px;
+	font-weight:bold;
+	font-style:italic;
+}
+
+/* Linha 5 */
+.m15{
+	background-color: #27AE60;
+}
+
+.m25{
+	background-color: #D4AC0D;
+}
+
+.m35{
+	background-color: #DC7633;
+}
+
+.m45{
+	background-color: #C0392B;
+}
+
+.m55{
+	background-color: #C0392B;
+}
+
+/* Linha 4 */
+.m14{
+	background-color: #27AE60;
+}
+
+.m24{
+	background-color: #D4AC0D;
+}
+
+.m34{
+	background-color: #DC7633;
+}
+
+.m44{
+	background-color: #DC7633;
+}
+
+.m54{
+	background-color: #C0392B;
+}
+
+/* Linha 3 */
+.m13{
+	background-color: #27AE60;
+}
+
+.m23{
+	background-color: #2471A3;
+}
+
+.m33{
+	background-color: #D4AC0D;
+}
+
+.m43{
+	background-color: #DC7633;
+}
+
+.m53{
+	background-color: #C0392B;
+}
+
+/* Linha 2 */
+.m12{
+	background-color: #27AE60;
+}
+
+.m22{
+	background-color: #2471A3;
+}
+
+.m32{
+	background-color: #D4AC0D;
+}
+
+.m42{
+	background-color: #D4AC0D;
+}
+
+.m52{
+	background-color: #DC7633;
+}
+
+/* Linha 1 */
+.m11{
+	background-color: #27AE60;
+}
+
+.m21{
+	background-color: #27AE60;
+}
+
+.m31{
+	background-color: #2471A3;
+}
+
+.m41{
+	background-color: #D4AC0D;
+}
+
+.m51{
+	background-color: #DC7633;
+}

@@ -57,6 +57,30 @@
 												String descricaoRisco = listaDescricaoRisco.get(i).toString();
 												String impactoRisco = listaImpactoRisco.get(i).toString();
 												String probabilidadeRisco = listaProbabilidadeRisco.get(i).toString();
+												
+												if (impactoRisco.equals("1")){
+													impactoRisco = "Nulo";
+												}else if (impactoRisco.equals("2")){
+													impactoRisco = "Baixo";
+												}else if (impactoRisco.equals("3")){
+													impactoRisco = "Médio";
+												}else if (impactoRisco.equals("4")){
+													impactoRisco = "Alto";
+												}else if (impactoRisco.equals("5")){
+													impactoRisco = "Muito Alto";
+												}
+												
+												if (probabilidadeRisco.equals("1")){
+													probabilidadeRisco = "Improvável";
+												}else if (probabilidadeRisco.equals("2")){
+													probabilidadeRisco = "Baixa";
+												}else if (probabilidadeRisco.equals("3")){
+													probabilidadeRisco = "Média";
+												}else if (probabilidadeRisco.equals("4")){
+													probabilidadeRisco = "Alta";
+												}else if (probabilidadeRisco.equals("5")){
+													probabilidadeRisco = "Muito Alta";
+												}
  											%>
  											<tr>
  												<td><%=codigoRisco%></td>
@@ -64,8 +88,8 @@
                   								<td><%=descricaoRisco%></td>
                   								<td><%=impactoRisco%></td>
                   								<td><%=probabilidadeRisco%></td>
-                  								<td><button type="button" class="btn btn-secondary"><a href="Risco.do?acao=editar&idRisco=<%=idRisco%>">Editar</a></button></td> 
-                  								<td><button type="button" class="btn btn-secondary"><a href="Risco.do?acao=remover&idRisco=<%=idRisco%>">Remover</a></button></td> 
+                  								<td><button type="button" class="btn btn-secondary"><a href="Risco.do?acao=editar&codigoRisco=<%=codigoRisco%>">Editar</a></button></td> 
+                  								<td><button type="button" class="btn btn-secondary"><a href="Risco.do?acao=remover&codigoRisco=<%=codigoRisco%>">Remover</a></button></td> 
                   							</tr>															
  											<% } //fecha for
 											%>
