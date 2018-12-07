@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.List" %>
-<%if(!session.getAttribute("cargo").toString().equals("2")){%>
+<%if(!session.getAttribute("cargo").toString().equals("1")){%>
 	<META http-equiv="refresh" content="1;URL=http://localhost:8080/AuditoriaBancoCentral/Login.jsp"> 
-<%}%>   
+<%}%> 
 <!DOCTYPE HTML>
 
 <html lang="pt-br">
 	<head>
-		<title>Objetos</title>
+		<title>Riscos</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -18,7 +18,7 @@
 
 		<!-- Header -->
 			<header id="header">
-				<a href="index.html" class="title">Objetos</a>
+				<a href="Home.jsp" class="title">Riscos</a>
 				<nav>
 					<ul>
 						<li><a href="Home.jsp">Home</a></li>
@@ -32,28 +32,37 @@
 				<!-- Main -->
 					<section id="main" class="wrapper">
 						<div class="inner">
-							<h2>Cadastrar Objetos</h2>
-									<form method="post" action="Objeto.do?acao=cadastrar">
+							<h2>Editar Riscos</h2>
+									<form method="post" action="Risco.do?acao=editar">
 										<div class="row gtr-uniform">
 											<div class="col-6 col-12-xsmall">
-												<input type="text" name="nome" id="demo-name" value="" placeholder="Nome" />
+												<input type="text" name="" id="demo-name" value="<%=session.getAttribute("codigoRiscoEditar")%>" disabled/>
+												<input type="hidden" name="codigoRisco" id="demo-name" value="<%=session.getAttribute("codigoRiscoEditar")%>"/>
+											</div>
+											<div class="col-6 col-12-xsmall">
+												<input type="text" name="nome" id="demo-name" value="<%=session.getAttribute("nomeRiscoEditar")%>"/>
 											</div>
 											<div class="col-12">
-												<textarea name="descricao" id="demo-message" placeholder="Descrição do Objeto" rows="6"></textarea>
+												<textarea name="descricao" id="demo-message" rows="6"><%=session.getAttribute("descricaoRiscoEditar")%></textarea>
 											</div>
 											<div class="col-12">
-												<select name="idProcesso">
-													<option value="">- Nome do Processo -</option>
-													<%
-  													List lista1 = (List)session.getAttribute("idProcessos");
-  													List lista2 = (List)session.getAttribute("nomeProcessos");
-  													for(int i = 0; i < lista1.size(); i++) {
-  														String idProcesso = lista1.get(i).toString();
-  														String nome = lista2.get(i).toString();
- 													%>
-													<option value=<%=idProcesso%>> <%=nome%> </option>																
- 													<% } //fecha for
-													%>
+												<select name="impacto" id="demo-category">
+													<option value="">- Impacto -</option>
+													<option value="1">Nulo</option>
+													<option value="2">Baixo</option>
+													<option value="3">Médio</option>
+													<option value="4">Alto</option>
+													<option value="5">Muito Alto</option>
+												</select>
+											</div>
+                                            <div class="col-12">
+												<select name="probabilidade" id="demo-category">
+													<option value="">- Probabilidade -</option>
+													<option value="1">Improvável</option>
+													<option value="2">Baixa</option>
+													<option value="3">Média</option>
+													<option value="4">Alta</option>
+													<option value="5">Muito Alta</option>
 												</select>
 											</div>
 											<div class="col-12">

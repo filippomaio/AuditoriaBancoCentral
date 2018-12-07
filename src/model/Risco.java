@@ -32,7 +32,7 @@ public class Risco {
             ps.setInt(4, impacto);
             ps.setInt(5, probabilidade);
             ps.executeUpdate();
-            System.out.println("Add");
+            //System.out.println("Add");
         }catch(SQLException ex){
             System.out.println("Um erro aconteceu: " + ex);
         }
@@ -57,7 +57,7 @@ public class Risco {
                 risco.probabilidade = rs.getInt("probabilidade");
                 riscos.add(risco);
             }
-            System.out.println(riscos);
+            //System.out.println(riscos);
             return riscos;
         }catch(SQLException ex){
             System.out.println("Um erro aconteceu: " + ex);
@@ -82,7 +82,7 @@ public class Risco {
                 risco.probabilidade = rs.getInt("probabilidade");
                 riscos.add(risco);
             }
-            System.out.println(riscos);
+            //System.out.println(riscos);
             return riscos;
         }catch(SQLException ex){
             System.out.println("Um erro aconteceu: " + ex);
@@ -110,7 +110,7 @@ public class Risco {
                 risco.probabilidade = rs.getInt("probabilidade");
                 riscos.add(risco);
             }
-            System.out.println(riscos);
+            //System.out.println(riscos);
             return riscos;
         }catch(SQLException ex){
             System.out.println("Um erro aconteceu: " + ex);
@@ -126,12 +126,12 @@ public class Risco {
             ps.setInt(1, cod);
             ResultSet rs = ps.executeQuery();
             rs.next();
-            System.out.println("Result Set: " + rs.getInt("idRisco"));
-            System.out.println("Result Set: " + rs.getString("codigo"));
-            System.out.println("Result Set: " + rs.getString("nome"));
-            System.out.println("Result Set: " + rs.getString("descricao"));
-            System.out.println("Result Set: " + rs.getString("impacto"));
-            System.out.println("Result Set: " + rs.getString("probabilidade"));
+            //System.out.println("Result Set: " + rs.getInt("idRisco"));
+            //System.out.println("Result Set: " + rs.getString("codigo"));
+            //System.out.println("Result Set: " + rs.getString("nome"));
+            //System.out.println("Result Set: " + rs.getString("descricao"));
+            //System.out.println("Result Set: " + rs.getString("impacto"));
+            //System.out.println("Result Set: " + rs.getString("probabilidade"));
             this.idRisco = rs.getInt("idRisco");
             this.codigo = rs.getInt("codigo");
             this.nome = rs.getString("nome");
@@ -155,12 +155,12 @@ public class Risco {
             ps.setString(1, nome);
             ResultSet rs = ps.executeQuery();
             rs.next();
-            System.out.println("Result Set: " + rs.getInt("idRisco"));
-            System.out.println("Result Set: " + rs.getString("codigo"));
-            System.out.println("Result Set: " + rs.getString("nome"));
-            System.out.println("Result Set: " + rs.getString("descricao"));
-            System.out.println("Result Set: " + rs.getString("impacto"));
-            System.out.println("Result Set: " + rs.getString("probabilidade"));
+            //System.out.println("Result Set: " + rs.getInt("idRisco"));
+            //System.out.println("Result Set: " + rs.getString("codigo"));
+            //System.out.println("Result Set: " + rs.getString("nome"));
+            //System.out.println("Result Set: " + rs.getString("descricao"));
+            //System.out.println("Result Set: " + rs.getString("impacto"));
+            //System.out.println("Result Set: " + rs.getString("probabilidade"));
             this.idRisco = rs.getInt("idRisco");
             this.codigo = rs.getInt("codigo");
             this.nome = rs.getString("nome");
@@ -188,7 +188,7 @@ public class Risco {
              ps.setInt(4, probabilidade);
              ps.setInt(5, codigo);
              ps.executeUpdate();
-             System.out.println("Alterado");
+             //System.out.println("Alterado");
          }catch(SQLException ex){
              System.out.println("Um erro aconteceu: " + ex);
          }
@@ -202,7 +202,7 @@ public class Risco {
             PreparedStatement ps = cn.prepareStatement(query);
             ps.setInt(1, codigo);
             ps.executeUpdate();
-            System.out.println("Deletado");
+            //System.out.println("Deletado");
             return true;
         }catch(SQLException ex){
             System.out.println("Um erro aconteceu: " + ex);

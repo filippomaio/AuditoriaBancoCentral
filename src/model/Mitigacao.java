@@ -90,10 +90,10 @@ public class Mitigacao {
             ps.setString(1, nome);
             ps.setString(2, descricao);
             ps.executeUpdate();
-            System.out.println("Add");
+            //System.out.println("Add");
             return true;
         }catch(SQLException ex){
-            System.out.println("Um erro aconteceu: " + ex);
+            System.out.println("Erro em CreateMitigacao: " + ex);
         }
         
         return false;
@@ -107,13 +107,13 @@ public class Mitigacao {
             ps.setString(1, nome);
             ResultSet rs = ps.executeQuery();
             rs.next();
-            System.out.println("Result Set: " + rs.getString("nome"));
+            //System.out.println("Result Set: " + rs.getString("nome"));
             this.idMitigacao = rs.getInt("idMitigacao");
             this.nome = rs.getString("nome");
             this.descricao = rs.getString("descricao");
             return this;
         }catch(SQLException ex){
-            System.out.println("Um erro aconteceu: " + ex);
+            System.out.println("Erro em readMitigacao : " + ex);
         }
         
         
@@ -128,13 +128,13 @@ public class Mitigacao {
             ps.setInt(1, idMitigacao);
             ResultSet rs = ps.executeQuery();
             rs.next();
-            System.out.println("Result Set: " + rs.getString("nome"));
+            //System.out.println("Result Set: " + rs.getString("nome"));
             this.idMitigacao = rs.getInt("idMitigacao");
             this.nome = rs.getString("nome");
             this.descricao = rs.getString("descricao");
             return this;
         }catch(SQLException ex){
-            System.out.println("Um erro aconteceu: " + ex);
+            System.out.println("Erro em readMitigacao" + ex);
         }
         
         
@@ -150,10 +150,10 @@ public class Mitigacao {
             ps.setString(2, descricao);
             ps.setInt(3, idMitigacao);
             ps.executeUpdate();
-            System.out.println("Alterado");
+            //System.out.println("Alterado");
             return true;
         }catch(SQLException ex){
-            System.out.println("Um erro aconteceu: " + ex);
+            System.out.println("Erro em updateMitigacao" + ex);
         }
         
         return false;
@@ -166,10 +166,10 @@ public class Mitigacao {
             PreparedStatement ps = cn.prepareStatement(query);
             ps.setInt(1, idMitigacao);
             ps.executeUpdate();
-            System.out.println("Deletado");
+            //System.out.println("Deletado");
             return true;
         }catch(SQLException ex){
-            System.out.println("Um erro aconteceu: " + ex);
+            System.out.println("Erro em deleteMitigacao" + ex);
         }
         
         return false;
@@ -191,7 +191,7 @@ public class Mitigacao {
             }
             return mitigacoes;
         }catch(SQLException ex){
-            System.out.println("Um erro aconteceu: " + ex);
+            System.out.println("Erro em getMitigacoes" + ex);
         }
         return null;
     }
@@ -208,7 +208,7 @@ public class Mitigacao {
             this.idMitigacao = rs.getInt("idMitigacao");
             return this;
         }catch(SQLException ex){
-            System.out.println("Um erro aconteceu: " + ex);
+            System.out.println("Erro em readObjetoMitigacao" + ex);
         }        
         
         return null;
@@ -222,10 +222,10 @@ public class Mitigacao {
             ps.setInt(1, idObjetoRisco);
             ps.setInt(2, idMitigacao);
             ps.executeUpdate();
-            System.out.println("Add");
+            //System.out.println("Add");
             return true;
         }catch(SQLException ex){
-            System.out.println("Um erro aconteceu: " + ex);
+            System.out.println("Erro em associateMitigacao" + ex);
         }
         
         return false;  
@@ -240,10 +240,10 @@ public class Mitigacao {
             ps.setString(2, comentarios);
             ps.setInt(3, idObjetoRiscoMitigacao);
             ps.executeUpdate();
-            System.out.println("Alterado");
+            //System.out.println("Alterado");
             return true;
         }catch(SQLException ex){
-            System.out.println("Um erro aconteceu: " + ex);
+            System.out.println("Erro em updateAssociateMitigacao: " + ex);
         }
         
         return false;
@@ -259,7 +259,7 @@ public class Mitigacao {
             ArrayList<Mitigacao> mitigacoes = new ArrayList<Mitigacao>();
             while(rs.next()){
                 Mitigacao mitigacao = new Mitigacao(cn);
-                System.out.println(rs.getInt("idObjetoRiscoMitigacao"));
+                //System.out.println(rs.getInt("idObjetoRiscoMitigacao"));
                 mitigacao.idObjetoRiscoMitigacao = rs.getInt("idObjetoRiscoMitigacao");
                 mitigacao.idMitigacao = rs.getInt("idMitigacao");
                 mitigacao.idObjeto = rs.getInt("idObjeto");
@@ -276,8 +276,8 @@ public class Mitigacao {
             }
             return mitigacoes;
         }catch(SQLException ex){
-            System.out.println("Um erro aconteceu: " + ex);
+            System.out.println("Erro em getObjetosRiscosMitigacoes" + ex);
         }
         return null;
     }
-    }
+}

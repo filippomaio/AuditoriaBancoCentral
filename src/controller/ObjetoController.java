@@ -36,9 +36,9 @@ public class ObjetoController extends HttpServlet {
 		String acao = request.getParameter("acao");
 		int idObjeto = Integer.parseInt(request.getParameter("idObjeto"));
 		if (acao.equals("editar")){
-			//editarObjeto(idObjeto,request,response);
+			preencherObjeto(idObjeto,request,response);
 		}else if (acao.equals("remover")){
-			//removerObjeto(idObjeto,request,response);
+			removerObjeto(idObjeto,request,response);
 		}
 	}
 
@@ -52,6 +52,57 @@ public class ObjetoController extends HttpServlet {
 		}
 		if (acao.equals("associar")) {
 			associarObjetoRisco(request,response);
+		}
+		if (acao.equals("editar")){
+			editarObjeto(request,response);
+		}
+	}
+	
+	protected void editarObjeto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		objeto = new Objeto(usuario.getCn());
+        
+		int idObjeto = Integer.parseInt(request.getParameter("idObjeto"));
+        String nome = request.getParameter("nome");
+        String descricao = request.getParameter("descricao");
+        int idProcesso = Integer.parseInt(request.getParameter("idProcesso"));
+        
+        if (!hasObjeto(nome,sessao)) {        	
+        	objeto.updateObjeto(nome, descricao,idProcesso, idObjeto);
+        	request.setAttribute("message", "Objeto editado com sucesso!");
+        	usuario.carregarListas(request, response);
+            request.getRequestDispatcher("GerenciarObjeto.jsp").forward(request, response);
+        }else {
+        	request.setAttribute("message", "Erro ao editar Objeto");
+            request.getRequestDispatcher("GerenciarObjeto.jsp").forward(request, response);
+        }
+	}
+	
+	protected void removerObjeto(int idObjeto, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		objeto = new Objeto(usuario.getCn());
+		
+		if(objeto.readObjeto(idObjeto)!= null) {
+			objeto.deleteObjeto(idObjeto);
+			request.setAttribute("message", "Objeto removido com sucesso!");
+			usuario.carregarListas(request,response);			
+			request.getRequestDispatcher("GerenciarObjeto.jsp").forward(request, response);
+		}
+	}
+	
+	protected void preencherObjeto(int idObjeto, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		objeto = new Objeto(usuario.getCn());
+		
+		if(objeto.readObjeto(idObjeto)!= null) {
+			sessao.setAttribute("idObjetoEditar", objeto.getIdObjeto());
+			sessao.setAttribute("nomeObjetoEditar", objeto.getNome());
+			sessao.setAttribute("descricaoObjetoEditar", objeto.getDescricao());
+			sessao.setAttribute("idProcessoObjetoEditar", objeto.getIdProcesso());
+            request.getRequestDispatcher("EditarObjeto.jsp").forward(request, response);
 		}
 	}
 	
@@ -133,26 +184,8 @@ public class ObjetoController extends HttpServlet {
 		if (!hasObjetoRisco(idObjeto, idRisco, sessao)) {        	
 			objeto.associateObjetoRisco(idObjeto, idRisco);
 			request.setAttribute("message", "Objeto e Risco associado com sucesso!");
-			carregarObjetos(request);
-			carregarObjetosRisco(request);
 
-			//Carregar Listas
-			ProcessoController processo = new ProcessoController();
-			processo.carregarProcessos(request);
-			
-			carregarObjetos(request);
-			carregarObjetosRisco(request);
-			
-			RiscoController risco = new RiscoController();
-			risco.carregarRiscos(request);
-			risco.carregarObjetoRiscos(request);			
-			risco.carregarMatrizRisco(request, response);
-			
-			MitigacaoController mitigacao = new MitigacaoController();
-			mitigacao.carregarMitigacoes(request);
-			mitigacao.carregarObjetosRiscosMitigacoes(request);
-			mitigacao.carregarMatrizControle(request, response);
-			
+			usuario.carregarListas(request,response);
 			
             request.getRequestDispatcher("AssociarObjetoRisco.jsp").forward(request, response);
         }else {

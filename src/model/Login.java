@@ -33,8 +33,8 @@ public class Login {
            this.cn = DriverManager.getConnection(address, "root", "");
            this.stmt = this.getCn().createStatement();
            
-           System.out.println("Conectou no banco");
-           System.out.println(cn);
+           //System.out.println("Conectou no banco");
+           //System.out.println(cn);
            
            return true;
            
@@ -53,7 +53,7 @@ public class Login {
             rs.close();
             return true;
         } catch (SQLException ex) {
-            System.out.println("Erro ao desconectar");
+            //System.out.println("Erro ao desconectar");
         }
         
         return false;
@@ -73,7 +73,7 @@ public class Login {
             this.login = rs.getString("login");
             this.senha = rs.getString("senha");
             this.cargo = rs.getInt("cargo");
-            System.out.println("Login: " + rs.getString("login"));
+            //System.out.println("Login: " + rs.getString("login"));
             return true;
         } catch (SQLException ex) {
             System.out.println("Erro: " + ex);

@@ -36,9 +36,9 @@ public class MitigacaoController extends HttpServlet {
 		String acao = request.getParameter("acao");
 		int idMitigacao = Integer.parseInt(request.getParameter("idMitigacao"));
 		if (acao.equals("editar")){
-			//editarMitigacao(idMitigacao,request,response);
+			preencherMitigacao(idMitigacao,request,response);
 		}else if (acao.equals("remover")){
-			//removerMitigacao(idMitigacao,request,response);
+			removerMitigacao(idMitigacao,request,response);
 		}
 	}
 
@@ -53,6 +53,54 @@ public class MitigacaoController extends HttpServlet {
 			associarMitigacao(request,response);
 		}else if (acao.equals("auditar")){
 			auditarMitigacao(request,response);
+		}else if (acao.equals("editar")){
+			editarMitigacao(request,response);
+		}
+	}
+	
+	protected void editarMitigacao(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		mitigacao = new Mitigacao(usuario.getCn());
+        
+		int idMitigacao = Integer.parseInt(request.getParameter("idMitigacao"));
+        String nome = request.getParameter("nome");
+        String descricao = request.getParameter("descricao");
+        
+        if (!hasMitigacao(nome,sessao)) {        	
+        	mitigacao.updateMitigacao(nome, descricao, idMitigacao);
+        	request.setAttribute("message", "Mitigacao editado com sucesso!");
+        	usuario.carregarListas(request,response);
+            request.getRequestDispatcher("GerenciarMitigacao.jsp").forward(request, response);
+        }else {
+        	request.setAttribute("message", "Erro ao editar Mitigacao");
+            request.getRequestDispatcher("GerenciarMitigacao.jsp").forward(request, response);
+        }
+	}
+	
+	protected void removerMitigacao(int idMitigacao, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		mitigacao = new Mitigacao(usuario.getCn());
+		
+		if(mitigacao.readMitigacao(idMitigacao)!= null) {
+			mitigacao.deleteMitigacao(idMitigacao);
+			request.setAttribute("message", "Mitigacao removido com sucesso!");
+			usuario.carregarListas(request,response);
+			request.getRequestDispatcher("GerenciarMitigacao.jsp").forward(request, response);
+		}
+	}
+	
+	protected void preencherMitigacao(int idMitigacao, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		mitigacao = new Mitigacao(usuario.getCn());
+		
+		if(mitigacao.readMitigacao(idMitigacao)!= null) {
+			sessao.setAttribute("idMitigacaoEditar", mitigacao.getIdMitigacao());
+			sessao.setAttribute("nomeMitigacaoEditar", mitigacao.getNome());
+			sessao.setAttribute("descricaoMitigacaoEditar", mitigacao.getDescricao());
+            request.getRequestDispatcher("EditarMitigacao.jsp").forward(request, response);
 		}
 	}
 	

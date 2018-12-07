@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.List" %> 
+<%@ page import="java.util.List" %>
+<%if(!session.getAttribute("cargo").toString().equals("1")){%>
+	<META http-equiv="refresh" content="1;URL=http://localhost:8080/AuditoriaBancoCentral/Login.jsp"> 
+<%}%>
 <!DOCTYPE HTML>
 
 <html lang="pt-br">
@@ -30,6 +33,7 @@
 						<section>
 									<h2>Riscos</h2>
 									<div class="table-wrapper">
+									${message}
 										<table>
 											<thead>
 												<tr>
@@ -52,7 +56,7 @@
 											List listaProbabilidadeRisco = (List)session.getAttribute("probabilidadeRiscos");
 											for(int i = 0; i < listaIdRisco.size(); i++) {
 												String idRisco = listaIdRisco.get(i).toString();
-												String codigoRisco = listaIdRisco.get(i).toString();
+												String codigoRisco = listaCodigoRisco.get(i).toString();
 												String nomeRisco = listaNomeRisco.get(i).toString();
 												String descricaoRisco = listaDescricaoRisco.get(i).toString();
 												String impactoRisco = listaImpactoRisco.get(i).toString();

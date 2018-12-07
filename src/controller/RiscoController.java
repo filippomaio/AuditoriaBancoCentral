@@ -34,11 +34,12 @@ public class RiscoController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String acao = request.getParameter("acao");
-		String codigoRisco = request.getParameter("codigoRisco");
+		int codigoRisco = Integer.parseInt(request.getParameter("codigoRisco"));
+		//System.out.println(codigoRisco);
 		if (acao.equals("editar")){
-			//editarRisco(idRisco,request,response);
+			preencherRisco(codigoRisco,request,response);
 		}else if (acao.equals("remover")){
-			//removerRisco(idRisco,request,response);
+			removerRisco(codigoRisco,request,response);
 		}
 	}
 
@@ -50,7 +51,62 @@ public class RiscoController extends HttpServlet {
 		if (acao.equals("cadastrar")){
 			cadastrarRisco(request,response);
 		}
+		if (acao.equals("editar")){
+			editarRisco(request,response);
+		}
 	}
+	
+	protected void editarRisco(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		risco = new Risco(usuario.getCn());
+        
+		int codigoRisco = Integer.parseInt(request.getParameter("codigoRisco"));
+        String nome = request.getParameter("nome");
+        String descricao = request.getParameter("descricao");
+        int impacto = Integer.parseInt(request.getParameter("impacto"));
+        int probabilidade = Integer.parseInt(request.getParameter("probabilidade"));
+        
+        if (!hasRisco(nome,sessao)) {        	
+        	risco.updateRisco(nome, descricao,impacto, probabilidade, codigoRisco);
+        	request.setAttribute("message", "Risco editado com sucesso!");
+        	usuario.carregarListas(request,response);
+            request.getRequestDispatcher("GerenciarRisco.jsp").forward(request, response);
+        }else {
+        	request.setAttribute("message", "Erro ao editar Risco");
+            request.getRequestDispatcher("GerenciarRisco.jsp").forward(request, response);
+        }
+	}
+	
+	protected void removerRisco(int codigoRisco, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		risco = new Risco(usuario.getCn());
+		
+		if(risco.readRisco(codigoRisco)!= null) {
+			risco.deleteRisco(codigoRisco);
+			request.setAttribute("message", "Risco removido com sucesso!");
+			usuario.carregarListas(request,response);			
+			request.getRequestDispatcher("GerenciarRisco.jsp").forward(request, response);
+		}
+	}
+	
+	protected void preencherRisco(int codigoRisco, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		risco = new Risco(usuario.getCn());
+		
+		if(risco.readRisco(codigoRisco)!= null) {
+			sessao.setAttribute("idRiscoEditar", risco.getIdRisco());
+			sessao.setAttribute("codigoRiscoEditar", risco.getCodigo());
+			sessao.setAttribute("nomeRiscoEditar", risco.getNome());
+			sessao.setAttribute("descricaoRiscoEditar", risco.getDescricao());
+			sessao.setAttribute("impactoRiscoEditar", risco.getImpacto());
+			sessao.setAttribute("probabilidadeRiscoEditar", risco.getProbabilidade());
+            request.getRequestDispatcher("EditarRisco.jsp").forward(request, response);
+		}
+	}
+
 	
 	protected void cadastrarRisco(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession sessao = request.getSession();

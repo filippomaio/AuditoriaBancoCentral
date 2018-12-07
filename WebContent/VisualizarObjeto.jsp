@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.List" %> 
+<%@ page import="java.util.List" %>
+<%if(session.getAttribute("cargo").toString().equals("2")){%> 
+<%}else if(session.getAttribute("cargo").toString().equals("1")){%>
+<%}else{%>
+	<META http-equiv="refresh" content="1;URL=http://localhost:8080/AuditoriaBancoCentral/Login.jsp">
+<%}%>
 <!DOCTYPE HTML>
 
 <html lang="pt-br">

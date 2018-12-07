@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%if(session.getAttribute("cargo").toString().equals("2")){%> 
+<%}else if(session.getAttribute("cargo").toString().equals("1")){%>
+<%}else{%>
+	<META http-equiv="refresh" content="1;URL=http://localhost:8080/AuditoriaBancoCentral/Login.jsp">
+<%}%>
 <!DOCTYPE HTML>
 <html lang="pt-br">
 	<head>
@@ -51,8 +56,13 @@
 									<p>Operações envolvendo os processos</p>
 									<ul class="actions">
 										<li><a href="VisualizarProcesso.jsp" class="button">Visualizar</a>
-                                            <a href="CadastrarProcesso.jsp" class="button">Cadastrar</a>
-                                            <a href="GerenciarProcesso.jsp" class="button">Gerenciar</a>
+											<%if(session.getAttribute("cargo").toString().equals("2")){ %>
+                                            	<a href="CadastrarProcesso.jsp" class="button">Cadastrar</a>
+                                            	<a href="GerenciarProcesso.jsp" class="button">Gerenciar</a>
+                                        	<%}else{ %>
+                                        		<a href="CadastrarProcesso.jsp" class="button disabled">Cadastrar</a>
+                                           		<a href="GerenciarProcesso.jsp" class="button disabled">Gerenciar</a>
+                                        	<%} %>
                                         </li>
 									</ul>
 								</div>
@@ -67,13 +77,20 @@
 									<p>Operações envolvendo os Objetos</p>
 									<ul class="actions">
 										<li><a href="VisualizarObjeto.jsp" class="button">Visualizar</a>
-                                            <a href="CadastrarObjeto.jsp" class="button">Cadastrar</a>
-                                            <a href="GerenciarObjeto.jsp" class="button">Gerenciar</a>
-                                            <br> <br>
-                                            <!-- Aqui ? ou em Risco ? ou nos 2? -->
-                                            <a href="AssociarObjetoRisco.jsp" class="button">Associar Objeto - Risco</a>
-                                            <!-- Aqui ? ou em Mitigacao ? ou nos 2? -->
-                                            <a href="AssociarObjetoRiscoMitigacao.jsp" class="button">Associar Objeto - Risco - Mitigacao</a>
+											<%if(session.getAttribute("cargo").toString().equals("2")){ %>
+                                            	<a href="CadastrarObjeto.jsp" class="button">Cadastrar</a>
+                                            	<a href="GerenciarObjeto.jsp" class="button">Gerenciar</a>
+                                            	<br><br>                                            
+                                            	<a href="AssociarObjetoRisco.jsp" class="button">Associar Objeto - Risco</a>                                            
+                                            	<a href="AssociarObjetoRiscoMitigacao.jsp" class="button">Associar Objeto - Risco - Mitigacao</a>
+                                            <%}else{ %>
+                                            	<a href="CadastrarObjeto.jsp" class="button disabled">Cadastrar</a>
+                                            	<a href="GerenciarObjeto.jsp" class="button disabled">Gerenciar</a>
+                                            	<br><br>                                            
+                                            	<a href="AssociarObjetoRisco.jsp" class="button disabled">Associar Objeto - Risco</a>                                            
+                                            	<a href="AssociarObjetoRiscoMitigacao.jsp" class="button disabled">Associar Objeto - Risco - Mitigacao</a>
+                                            <%} %>
+                                            
                                         </li>
 									</ul>
 								</div>
@@ -87,8 +104,13 @@
 									<p>Operações envolvendo os Riscos</p>
 									<ul class="actions">
 										<li><a href="VisualizarRisco.jsp" class="button">Visualizar</a>
-                                            <a href="CadastrarRisco.jsp" class="button">Cadastrar</a>
-                                            <a href="GerenciarRisco.jsp" class="button">Gerenciar</a>
+											<%if(session.getAttribute("cargo").toString().equals("1")){ %>
+                                            	<a href="CadastrarRisco.jsp" class="button">Cadastrar</a>
+                                            	<a href="GerenciarRisco.jsp" class="button">Gerenciar</a>
+                                            <%}else{ %>
+                                            	<a href="CadastrarRisco.jsp" class="button disabled">Cadastrar</a>
+                                            	<a href="GerenciarRisco.jsp" class="button disabled">Gerenciar</a>                                            
+                                            <%} %>
                                         </li>
 									</ul>
 								</div>
@@ -102,10 +124,17 @@
 									<p>Operações envolvendo as mitigações</p>
 									<ul class="actions">
 										<li><a href="VisualizarMitigacao.jsp" class="button">Visualizar</a>
-                                            <a href="CadastrarMitigacao.jsp" class="button">Cadastrar</a>
-                                            <a href="GerenciarMitigacao.jsp" class="button">Gerenciar</a>
-                                            <br>
-                                            <a href="AuditarMitigacao.jsp" class="button">Auditar</a>
+											<%if(session.getAttribute("cargo").toString().equals("1")){ %>
+                                            	<a href="CadastrarMitigacao.jsp" class="button disabled">Cadastrar</a>
+                                            	<a href="GerenciarMitigacao.jsp" class="button disabled">Gerenciar</a>
+                                            	<br>                                            
+                                            	<a href="AuditarMitigacao.jsp" class="button">Auditar</a>
+                                            <%}else if(session.getAttribute("cargo").toString().equals("2")){ %>
+                                                <a href="CadastrarMitigacao.jsp" class="button">Cadastrar</a>
+                                            	<a href="GerenciarMitigacao.jsp" class="button">Gerenciar</a>
+                                            	<br>                                            
+                                            	<a href="AuditarMitigacao.jsp" class="button disabled">Auditar</a>
+                                            <%} %>
                                         </li>
 									</ul>
 								</div>

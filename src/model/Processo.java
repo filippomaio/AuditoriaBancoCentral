@@ -41,7 +41,7 @@ public class Processo {
             ps.setString(1, nome);
             ps.setString(2, descricao);
             ps.executeUpdate();
-            System.out.println("Add");
+            //System.out.println("Add");
         }catch(SQLException ex){
             System.out.println("Um erro aconteceu: " + ex);
         }
@@ -98,7 +98,7 @@ public class Processo {
             ps.setString(2, descricao);
             ps.setInt(3, idProcesso);
             ps.executeUpdate();
-            System.out.println("Alterado");
+            //System.out.println("Alterado");
         }catch(SQLException ex){
             System.out.println("Um erro aconteceu: " + ex);
         }
@@ -112,7 +112,7 @@ public class Processo {
             PreparedStatement ps = cn.prepareStatement(query);
             ps.setInt(1, idProcesso);
             ps.executeUpdate();
-            System.out.println("Deletado");
+            //System.out.println("Deletado");
             return true;
         }catch(SQLException ex){
             System.out.println("Um erro aconteceu: " + ex);
@@ -120,40 +120,6 @@ public class Processo {
         
         return false;
     }
-    /*
-    public boolean doProcessoRisco(int idProcesso, int idRisco){
-        String query = "INSERT INTO auditoria.processorisco(idProcesso, idRisco)"
-                + " VALUES (?,?)";
-        
-        try {
-            PreparedStatement ps = cn.prepareStatement(query);
-            ps.setInt(1, idProcesso);
-            ps.setInt(2, idRisco);
-            ps.executeUpdate();
-            System.out.println("Add");
-        }catch(SQLException ex){
-            System.out.println("Um erro aconteceu: " + ex);
-        }
-        
-        return false;  
-    }
-    
-    public boolean undoProcessoRisco(int idProcesso, int idRisco){
-        String query = "DELETE FROM auditoria.processorisco WHERE auditoria.processorisco.idProcesso = ? AND auditoria.processorisco.idRisco = ?";
-        
-        try {
-            PreparedStatement ps = cn.prepareStatement(query);
-            ps.setInt(1, idProcesso);
-            ps.setInt(2, idRisco);
-            ps.executeUpdate();
-            System.out.println("Apagado");
-        }catch(SQLException ex){
-            System.out.println("Um erro aconteceu: " + ex);
-        }
-        
-        return false;  
-    }*/
-
         
     public ArrayList<Processo> getProcessos(){
         String query = "SELECT * FROM auditoria.processo";
@@ -169,7 +135,7 @@ public class Processo {
                 processo.descricao = rs.getString("descricao");
                 processos.add(processo);
             }
-            System.out.println(processos);
+            //System.out.println(processos);
             return processos;
         }catch(SQLException ex){
             System.out.println("Um erro aconteceu: " + ex);

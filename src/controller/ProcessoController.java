@@ -36,9 +36,9 @@ public class ProcessoController extends HttpServlet {
 		String acao = request.getParameter("acao");
 		int idProcesso = Integer.parseInt(request.getParameter("idProcesso"));
 		if (acao.equals("editar")){
-			//editarProcesso(idProcesso,request,response);
+			preencherProcesso(idProcesso,request,response);
 		}else if (acao.equals("remover")){
-			//removerProcesso(idProcesso,request,response);
+			removerProcesso(idProcesso,request,response);
 		}
 	}
 
@@ -49,6 +49,54 @@ public class ProcessoController extends HttpServlet {
 		String acao = request.getParameter("acao");
 		if (acao.equals("cadastrar")){
 			cadastrarProcesso(request,response);
+		}else if (acao.equals("editar")){
+			editarProcesso(request,response);
+		}
+	}
+	
+	protected void editarProcesso(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		processo = new Processo(usuario.getCn());
+        
+		int idProcesso = Integer.parseInt(request.getParameter("idProcesso"));
+        String nome = request.getParameter("nome");
+        String descricao = request.getParameter("descricao");
+        
+        if (!hasProcesso(nome,sessao)) {        	
+        	processo.updateProcesso(nome, descricao, idProcesso);
+        	request.setAttribute("message", "Processo editado com sucesso!");
+        	carregarProcessos(request);
+            request.getRequestDispatcher("GerenciarProcesso.jsp").forward(request, response);
+        }else {
+        	request.setAttribute("message", "Erro ao editar Processo");
+            request.getRequestDispatcher("GerenciarProcesso.jsp").forward(request, response);
+        }
+	}
+	
+	protected void removerProcesso(int idProcesso, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		processo = new Processo(usuario.getCn());
+		
+		if(processo.readProcesso(idProcesso)!= null) {
+			processo.deleteProcesso(idProcesso);
+			request.setAttribute("message", "Processo removido com sucesso!");
+			carregarProcessos(request);
+			request.getRequestDispatcher("GerenciarProcesso.jsp").forward(request, response);
+		}
+	}
+	
+	protected void preencherProcesso(int idProcesso, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+		LoginController usuario = (LoginController)sessao.getAttribute("usuario");
+		processo = new Processo(usuario.getCn());
+		
+		if(processo.readProcesso(idProcesso)!= null) {
+			sessao.setAttribute("idProcessoEditar", processo.getIdProcesso());
+			sessao.setAttribute("nomeProcessoEditar", processo.getNome());
+			sessao.setAttribute("descricaoProcessoEditar", processo.getDescricao());
+            request.getRequestDispatcher("EditarProcesso.jsp").forward(request, response);
 		}
 	}
 	

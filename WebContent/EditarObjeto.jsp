@@ -3,7 +3,7 @@
 <%@ page import="java.util.List" %>
 <%if(!session.getAttribute("cargo").toString().equals("2")){%>
 	<META http-equiv="refresh" content="1;URL=http://localhost:8080/AuditoriaBancoCentral/Login.jsp"> 
-<%}%>   
+<%}%>
 <!DOCTYPE HTML>
 
 <html lang="pt-br">
@@ -18,7 +18,7 @@
 
 		<!-- Header -->
 			<header id="header">
-				<a href="index.html" class="title">Objetos</a>
+				<a href="Home.jsp" class="title">Objetos</a>
 				<nav>
 					<ul>
 						<li><a href="Home.jsp">Home</a></li>
@@ -32,27 +32,41 @@
 				<!-- Main -->
 					<section id="main" class="wrapper">
 						<div class="inner">
-							<h2>Cadastrar Objetos</h2>
-									<form method="post" action="Objeto.do?acao=cadastrar">
+							<h2>Editar Objetos</h2>
+									<form method="post" action="Objeto.do?acao=editar">
 										<div class="row gtr-uniform">
 											<div class="col-6 col-12-xsmall">
-												<input type="text" name="nome" id="demo-name" value="" placeholder="Nome" />
+												<input type="text" name="" id="demo-name" value="<%=session.getAttribute("idObjetoEditar")%>" disabled/>
+												<input type="hidden" name="idObjeto" id="demo-name" value="<%=session.getAttribute("idObjetoEditar")%>"/>
+											</div>
+											<div class="col-6 col-12-xsmall">
+												<input type="text" name="nome" id="demo-name" value="<%=session.getAttribute("nomeObjetoEditar")%>"/>
 											</div>
 											<div class="col-12">
-												<textarea name="descricao" id="demo-message" placeholder="Descrição do Objeto" rows="6"></textarea>
+												<textarea name="descricao" id="demo-message" rows="6"><%=session.getAttribute("descricaoObjetoEditar")%></textarea>
 											</div>
 											<div class="col-12">
 												<select name="idProcesso">
-													<option value="">- Nome do Processo -</option>
 													<%
   													List lista1 = (List)session.getAttribute("idProcessos");
   													List lista2 = (List)session.getAttribute("nomeProcessos");
+  													String idProcessoObjetoEditar = session.getAttribute("idProcessoObjetoEditar").toString();
   													for(int i = 0; i < lista1.size(); i++) {
   														String idProcesso = lista1.get(i).toString();
   														String nome = lista2.get(i).toString();
+  														if(idProcesso.equals(idProcessoObjetoEditar)){
  													%>
 													<option value=<%=idProcesso%>> <%=nome%> </option>																
- 													<% } //fecha for
+ 													<% }} //fecha for
+													%>
+													<%
+  													for(int i = 0; i < lista1.size(); i++) {
+  														String idProcesso = lista1.get(i).toString();
+  														String nome = lista2.get(i).toString();
+  														if(!(idProcesso.equals(idProcessoObjetoEditar))){
+ 													%>
+													<option value=<%=idProcesso%>> <%=nome%> </option>																
+ 													<% }} //fecha for
 													%>
 												</select>
 											</div>

@@ -26,6 +26,7 @@ public class LoginController extends HttpServlet {
         super();
         usuario = new Login();
         usuario.conectar("localhost");
+        //System.out.println("teste");
     }
 
 	/**
@@ -50,25 +51,10 @@ public class LoginController extends HttpServlet {
 		if (usuario.logar(login, senha)) {
 			HttpSession sessao = request.getSession();
             sessao.setAttribute("usuario", this);
+            sessao.setAttribute("cargo", this.getCargo());
 			request.setAttribute("usuario", this);
 			
-			//Carregar Listas
-			ProcessoController processo = new ProcessoController();
-			processo.carregarProcessos(request);
-			
-			ObjetoController objeto = new ObjetoController();
-			objeto.carregarObjetos(request);
-			objeto.carregarObjetosRisco(request);
-			
-			RiscoController risco = new RiscoController();
-			risco.carregarRiscos(request);
-			risco.carregarObjetoRiscos(request);			
-			risco.carregarMatrizRisco(request, response);
-			
-			MitigacaoController mitigacao = new MitigacaoController();
-			mitigacao.carregarMitigacoes(request);
-			mitigacao.carregarObjetosRiscosMitigacoes(request);
-			mitigacao.carregarMatrizControle(request, response);
+			carregarListas(request,response);
 			
 			request.getRequestDispatcher("Home.jsp").forward(request,response);
         }else {
@@ -76,6 +62,26 @@ public class LoginController extends HttpServlet {
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         }
 
+	}
+	
+	public void carregarListas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Carregar Listas
+		ProcessoController processo = new ProcessoController();
+		processo.carregarProcessos(request);
+		
+		ObjetoController objeto = new ObjetoController();
+		objeto.carregarObjetos(request);
+		objeto.carregarObjetosRisco(request);
+		
+		RiscoController risco = new RiscoController();
+		risco.carregarRiscos(request);
+		risco.carregarObjetoRiscos(request);			
+		risco.carregarMatrizRisco(request, response);
+		
+		MitigacaoController mitigacao = new MitigacaoController();
+		mitigacao.carregarMitigacoes(request);
+		mitigacao.carregarObjetosRiscosMitigacoes(request);
+		mitigacao.carregarMatrizControle(request, response);
 	}
 	
 	public Connection getCn() {
