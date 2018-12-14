@@ -41,7 +41,7 @@
 					<div class="row gtr-uniform">
 						<div class="col-12">
 							<select name="idObjetoRisco" id="demo-category">
-								<option value="">- Objeto - Risco -</option>
+								<option disabled value="">- Objeto - Risco -</option>
 								<%
 									List lista1 = (List) session.getAttribute("idObjetosObjetosRiscos");
 									List lista2 = (List) session.getAttribute("nomeObjetosRiscos");
@@ -61,7 +61,7 @@
 						</div>
 						<div class="col-12">
 							<select name="idMitigacao" id="demo-category">
-								<option value="">- Mitigação -</option>
+								<option disabled value="">- Mitigação -</option>
 								<%
 									List lista4 = (List) session.getAttribute("idMitigacoes");
 									List lista5 = (List) session.getAttribute("nomeMitigacoes");

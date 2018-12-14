@@ -45,7 +45,7 @@
 											</div>
                                             <div class="col-12">
 												<select name="impacto" id="demo-category">
-													<option value="">- Impacto -</option>
+													<option disabled value="">- Impacto -</option>
 													<option value="1">Nulo</option>
 													<option value="2">Baixo</option>
 													<option value="3">Médio</option>
@@ -55,7 +55,7 @@
 											</div>
                                             <div class="col-12">
 												<select name="probabilidade" id="demo-category">
-													<option value="">- Probabilidade -</option>
+													<option disabled value="">- Probabilidade -</option>
 													<option value="1">Improvável</option>
 													<option value="2">Baixa</option>
 													<option value="3">Média</option>

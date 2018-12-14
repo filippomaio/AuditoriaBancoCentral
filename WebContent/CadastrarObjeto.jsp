@@ -42,8 +42,8 @@
 												<textarea name="descricao" id="demo-message" placeholder="Descrição do Objeto" rows="6"></textarea>
 											</div>
 											<div class="col-12">
-												<select name="idProcesso">
-													<option value="">- Nome do Processo -</option>
+												<select name="idProcesso" id="idProcesso">
+													<option disabled value="">- Nome do Processo -</option>
 													<%
   													List lista1 = (List)session.getAttribute("idProcessos");
   													List lista2 = (List)session.getAttribute("nomeProcessos");
@@ -69,6 +69,7 @@
 					</section>
 
 			</div>
+			
 
 		<!-- Footer -->
 			<footer id="footer" class="wrapper style1-alt">

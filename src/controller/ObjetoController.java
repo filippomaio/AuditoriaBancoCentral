@@ -68,7 +68,7 @@ public class ObjetoController extends HttpServlet {
         String descricao = request.getParameter("descricao");
         int idProcesso = Integer.parseInt(request.getParameter("idProcesso"));
         
-        if (!hasObjeto(nome,sessao)) {        	
+        if (hasObjeto(nome,sessao)) {        	
         	objeto.updateObjeto(nome, descricao,idProcesso, idObjeto);
         	request.setAttribute("message", "Objeto editado com sucesso!");
         	usuario.carregarListas(request, response);

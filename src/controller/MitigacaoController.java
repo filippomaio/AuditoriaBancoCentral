@@ -67,7 +67,7 @@ public class MitigacaoController extends HttpServlet {
         String nome = request.getParameter("nome");
         String descricao = request.getParameter("descricao");
         
-        if (!hasMitigacao(nome,sessao)) {        	
+        if (hasMitigacao(nome,sessao)) {        	
         	mitigacao.updateMitigacao(nome, descricao, idMitigacao);
         	request.setAttribute("message", "Mitigacao editado com sucesso!");
         	usuario.carregarListas(request,response);
@@ -115,8 +115,7 @@ public class MitigacaoController extends HttpServlet {
                 	
         mitigacao.updateAssociateMitigacao(avaliacao, comentarios, idObjetoRiscoMitigacao);
         request.setAttribute("message", "Mitigacao cadastrada com sucesso!");
-        carregarMitigacoes(request);
-        carregarObjetosRiscosMitigacoes(request);
+        usuario.carregarListas(request, response);
         request.getRequestDispatcher("AuditarMitigacao.jsp").forward(request, response);
 	}
 	

@@ -63,7 +63,9 @@ public class ProcessoController extends HttpServlet {
         String nome = request.getParameter("nome");
         String descricao = request.getParameter("descricao");
         
-        if (!hasProcesso(nome,sessao)) {        	
+        //System.out.println(idProcesso+ nome+ descricao);
+        
+        if (hasProcesso(nome,sessao)) {        	
         	processo.updateProcesso(nome, descricao, idProcesso);
         	request.setAttribute("message", "Processo editado com sucesso!");
         	carregarProcessos(request);

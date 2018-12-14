@@ -42,7 +42,7 @@
 					<div class="row gtr-uniform">
 						<div class="col-12">
 							<select name="selectIdObjeto" id="demo-category">
-								<option value="">- Objeto -</option>
+								<option disabled value="">- Objeto -</option>
 								<%
 									List lista1 = (List) session.getAttribute("idObjetos");
 									List lista2 = (List) session.getAttribute("nomeObjetos");
@@ -60,7 +60,7 @@
 						</div>
 						<div class="col-12">
 							<select name="selectIdRisco" id="demo-category">
-								<option value="">- Risco -</option>
+								<option disabled value="">- Risco -</option>
 								<%
 									List lista3 = (List) session.getAttribute("idRiscos");
 									List lista4 = (List) session.getAttribute("nomeRiscos");

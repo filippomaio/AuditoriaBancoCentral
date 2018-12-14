@@ -67,7 +67,7 @@ public class RiscoController extends HttpServlet {
         int impacto = Integer.parseInt(request.getParameter("impacto"));
         int probabilidade = Integer.parseInt(request.getParameter("probabilidade"));
         
-        if (!hasRisco(nome,sessao)) {        	
+        if (hasRisco(nome,sessao)) {        	
         	risco.updateRisco(nome, descricao,impacto, probabilidade, codigoRisco);
         	request.setAttribute("message", "Risco editado com sucesso!");
         	usuario.carregarListas(request,response);
